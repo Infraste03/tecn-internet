@@ -1,5 +1,28 @@
 {
   "dependencies": {
-    "express": "^4.18.1"
-  }
+    "express": "^4.18.1",
+    "fs": "^0.0.1-security",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.18",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1",
+    "soket.io": "^0.0.1-security"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "name": "progetto-amoretti",
+  "description": "��#\u0000 \u0000t\u0000e\u0000c\u0000n\u0000-\u0000i\u0000n\u0000t\u0000e\u0000r\u0000n\u0000e\u0000t\u0000\r\u0000 \u0000",
+  "version": "1.0.0",
+  "main": "forza4.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Infraste03/tecn-internet.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Infraste03/tecn-internet/issues"
+  },
+  "homepage": "https://github.com/Infraste03/tecn-internet#readme"
 }
