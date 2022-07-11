@@ -40,7 +40,7 @@ con.connect(function(err)
   });
 });
 
-io.on('connection', socket =>{
+/* io.on('connection', socket =>{
   console.log(socket.id)
   socket.on('custom-event',(number,string) => {
 
@@ -48,7 +48,23 @@ io.on('connection', socket =>{
 
   })
 })
+ */
 
+io.on("login", function(data){
+  const user = data.user,
+  pass = data.pass;
+
+   
+
+  var sql =("SELECT * FROM giocatore WHERE username=?", [user], function(err, rows, fields)
+  {
+  if(rows.length == 0){
+  console.log("nothing here");
+  }else{
+  console.log("here");
+  }
+  });
+});
 
 
 
