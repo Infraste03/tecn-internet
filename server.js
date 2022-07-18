@@ -9,6 +9,7 @@ const server = http.Server(app).listen(process.env.PORT || 3000);
 const io = socketIo(server);
 
 
+
 console.log("Server - listening at port 3000 ");
   
   app.use(express.static(__dirname + "/../node_modules/"));
@@ -33,40 +34,101 @@ con.connect(function(err)
 {
   if (err) throw err;
   console.log("Connected!");
-  var sql = "INSERT INTO giocatore (name, surname,username,mail,pwd) VALUES ('Francesca', 'Stefano','frastef','fra.stefano@gmail.com','ziopera')";
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("1 record inserted");
+  
+});
+
+functionServer();
+function functionServer()
+{
+
+ 
+io.on("connection", function(socket)
+{
+
+  
+  console.log('Server - new login request ');
+  socket.on('login',function(data)
+  {
+
+  var query = "SELECT * FROM giocatore WHERE username = '" + data.logUsername + "' AND pwd = '" + data.logPwd + "'";
+
+  con.query(query,function(error,rows,field)
+  {
+    if (error)
+    {
+      console.log('Server - login : Query error ' + error);
+    }
+    else 
+    {
+      if(rows.length == 1)
+      {
+        console.log("Server - login : user " + data.logUsername + " logged !!");
+        io.to(socket.id).emit('login', 
+        {
+          status: true,
+          username: rows[0].name,
+        });
+        
+      }
+      else
+      {
+        console.log("Server - login : user " + data.logUsername + " not exist !!")
+
+        io.to(socket.id).emit('login',
+        {
+          status: false,
+          reason: "USERNAME O PASSWORD ERRATI",
+        })
+      }
+    }
   });
 });
 
-/* io.on('connection', socket =>{
-  console.log(socket.id)
-  socket.on('custom-event',(number,string) => {
+console.log('Server - new singup request ');
+socket.on('signup',function(data)
+{
+//metti qui la select 
+var query = "INSERT INTO giocatore (name, surname,username,pwd) VALUES ('" + data.signName + "','" + data.signSurname + "','" + data.signUsername + "','"+ data.signPwd + "')";
 
-    console.log(number,string)
+con.query(query,function(error,rows,field)
+{
+  if (error)
+  {
+    console.log('Server - signup : Query error ' + error);
+    io.to(socket.id).emit('signup', 
+    {
+      status: false,
 
-  })
-})
- */
+    });
+  }
+  else 
+  {
+    console.log('Server - signup : OK');
+    io.to(socket.id).emit('signup of new user ', 
+    {
+      status: true,
 
-io.on("login", function(data){
-  const user = data.user,
-  pass = data.pass;
+    });
+  }
+});
+});
+
+
 
    
-
-  var sql =("SELECT * FROM giocatore WHERE username=?", [user], function(err, rows, fields)
-  {
-  if(rows.length == 0){
-  console.log("nothing here");
-  }else{
-  console.log("here");
-  }
-  });
 });
 
 
+
+
+
+
+
+
+
+
+
+}
 
 
 

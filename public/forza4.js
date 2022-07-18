@@ -1,5 +1,7 @@
  src="/socket.io/socket.io.js"
- var socket=io()
+ var socket=io.connect('http://localhost:3000/');
+
+
 socket.on('connect',()=> {
 
    alert('Benvenuti nel gioco!')
@@ -84,22 +86,63 @@ function setPiece()
     currColumns[c] = r; //update the array of 
 
 }
+$(document).ready(function()
+{
 
-io.on("logged_in", function(name){
-    $("#n_log_in").hide();
-    $("#log_in").html("Welcome back " + name + ", nice to see you again!");
-    $("#log_in").show();
-  });
-  
-  io.on("invalid", function(){
-    alert("Username / Password Invalid, Please try again!");
-  });
-  
-  socket.on("error", function(){
-    alert("Error: Please try again!");
-  });
+$("#Login").click(function()
+{
+    alert('cubi')
+socket.emit("login", 
+{
+
+logUsername: $("#username").val(),
+
+logPwd: $("#pwd").val()
+
+});
+});
+
+$("#Signup").click(function()
+{
+    alert('cubi2')
+socket.emit("signup", 
+{
+
+    signName : $("#name").val(),
+    signSurname : $("#surname").val(), 
+    signPwd: $("#pwd1").val(),
+    signUsername : $("#username1").val(), 
+    
+
+});
+});
+
+});
+
+socket.on('login',function(data)
+    {
+        if (data.status == true)
+        {
+           document.getElementById("board").style.visibility='visible'
+           document.getElementById("divlogin").style.visibility='hidden'
+           document.getElementById("divsignup").style.visibility='hidden'
+           
+        }
+    });
+
+socket.on('signup',function(data)
+    {
+        if (data.status == true)
+        {
+           document.getElementById("board").style.visibility='visible'
+           document.getElementById("divlogin").style.visibility='hidden'
+           document.getElementById("divsignup").style.visibility='hidden'
+           
+        }
+    });
 
 
 
 
-//console.log('ciao pluto')
+
+
