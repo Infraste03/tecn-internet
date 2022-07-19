@@ -10,6 +10,8 @@ const io = socketIo(server);
 
 
 
+
+
 console.log("Server - listening at port 3000 ");
   
   app.use(express.static(__dirname + "/../node_modules/"));
@@ -20,7 +22,6 @@ console.log("Server - listening at port 3000 ");
     const stream = fs.createReadStream(__dirname + "/public/forza4.html");
     stream.pipe(res);
   });
-
 
 
 var con = mysql.createConnection({
@@ -42,93 +43,113 @@ function functionServer()
 {
 
  
-io.on("connection", function(socket)
-{
-
-  
-  console.log('Server - new login request ');
-  socket.on('login',function(data)
+  io.on("connection", function(socket)
   {
 
-  var query = "SELECT * FROM giocatore WHERE username = '" + data.logUsername + "' AND pwd = '" + data.logPwd + "'";
-
-  con.query(query,function(error,rows,field)
-  {
-    if (error)
+    
+    console.log('Server - new login request ');
+    socket.on('login',function(data)
     {
-      console.log('Server - login : Query error ' + error);
-    }
+
+    var query = "SELECT * FROM giocatore WHERE username = '" + data.logUsername + "' AND pwd = '" + data.logPwd + "'";
+
+    con.query(query,function(error,rows,field)
+    {
+      if (error)
+      {
+        console.log('Server - login : Query error ' + error);
+      }
+      else 
+      {
+        if(rows.length == 1)
+        {
+          console.log("Server - login : user " + data.logUsername + " logged !!");
+          io.to(socket.id).emit('login', 
+          {
+            status: true,
+            username: rows[0].name,
+          });
+          
+        }
+        else
+        {
+          console.log("Server - login : user " + data.logUsername + " not exist !!")
+
+          io.to(socket.id).emit('login',
+          {
+            status: false,
+            reason: "USERNAME O PASSWORD ERRATI",
+          })
+        }
+      }
+    });
+  });
+
+  console.log('Server - new singup request ');
+  socket.on('signup',function(data)
+  {
+
+    var query = "SELECT * FROM giocatore WHERE username = '" + data.signUsername + "'";
+    con.query(query,function(error,rows,field)
+    {
+    
+      if (error)
+      {
+        console.log('Server - signup : Query error ' + error);
+      }
+      else 
+      {
+        if(rows.length == 1)
+        {
+          console.log("Server - login : user " + data.signUsername + " nome già presnete !!");
+          
+        }
+
     else 
     {
-      if(rows.length == 1)
-      {
-        console.log("Server - login : user " + data.logUsername + " logged !!");
-        io.to(socket.id).emit('login', 
-        {
-          status: true,
-          username: rows[0].name,
-        });
-        
-      }
-      else
-      {
-        console.log("Server - login : user " + data.logUsername + " not exist !!")
+      var query = "INSERT INTO giocatore (name, surname,username,pwd) VALUES ('" + data.signName + "','" + data.signSurname + "','" + data.signUsername + "','"+ data.signPwd + "')";
 
-        io.to(socket.id).emit('login',
+      con.query(query,function(error,rows,field)
+      {
+        if (error)
         {
-          status: false,
-          reason: "USERNAME O PASSWORD ERRATI",
-        })
-      }
+          console.log('Server - signup : Query error ' + error);
+          io.to(socket.id).emit('signup', 
+          {
+            status: false,
+      
+          });
+        }
+        else 
+        {
+          console.log('Server - signup : OK');
+          io.to(socket.id).emit('signup of new user ', 
+          {
+            status: true,
+      
+          });
+        }
+      });
+      
+      
     }
+
+      }
+
   });
-});
 
-console.log('Server - new singup request ');
-socket.on('signup',function(data)
-{
-//metti qui la select 
-var query = "INSERT INTO giocatore (name, surname,username,pwd) VALUES ('" + data.signName + "','" + data.signSurname + "','" + data.signUsername + "','"+ data.signPwd + "')";
 
-con.query(query,function(error,rows,field)
-{
-  if (error)
-  {
-    console.log('Server - signup : Query error ' + error);
-    io.to(socket.id).emit('signup', 
-    {
-      status: false,
+  });
 
-    });
+
+  })
   }
-  else 
-  {
-    console.log('Server - signup : OK');
-    io.to(socket.id).emit('signup of new user ', 
-    {
-      status: true,
-
-    });
-  }
-});
-});
 
 
 
-   
-});
+ 
 
 
-
-
-
-
-
-
-
-
-
-}
 
 
 

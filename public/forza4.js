@@ -20,7 +20,7 @@ var giocatoreStart= giocatoreRosso;
 var gameOver = false;
 
 //variabili per la strutturaa dell area di gioco
-var board;
+var board ;
 var currColumns;
 var rows = 6;
 var columns = 7;
@@ -75,23 +75,128 @@ function setPiece()
     if (giocatoreStart == giocatoreRosso)
     {
         tile.classList.add("red-pice");
+        board[r][c]= 'red-pice';
         giocatoreStart = giocatoreGiallo;
     }
     else
     {
         tile.classList.add("yellow-pice");
+        board[r][c]= 'yellow-pice';
         giocatoreStart = giocatoreRosso;
     }
     r-= 1; // update l' altezza per le colonne
     currColumns[c] = r; //update the array of 
+    checkWinner();
+
+    
 
 }
+
+function checkWinner()
+{
+  
+ /*  //orizzontale 
+  for (let r = 0; r < rows; r++)
+  {
+    for (let c = 0; c < columns - 3;c++)
+    {
+      
+        if (board[r][c] =!'')
+        {
+          
+          
+        if (board[r][c]==board[r][c+1]&& board[r][c+1]==board[r][c+2] )
+        {
+          alert(board[r][c+1])
+          alert(board[r][c+2])
+          alert(board[r][c+3])
+            
+          setWinner(r,c);
+          return;
+        }
+        
+        }
+    }
+  }
+
+  //verticale 
+
+  for (let c = 0; c< columns; c++)
+  {
+    for (let r = 0; r< rows -3;r++)
+    {
+      if (board[r][c] ='')
+      {
+        if (board[r][c]==board[r+1][c]&&board[r+1][c]==board[r+2][c]&&board[r+2][c]==board[r+3][c])
+        {alert(r,c)
+            
+          setWinner(r,c);
+          return;
+        }
+      }
+    }
+  } */
+
+  //diagonale minore
+  for (let r=0; r< rows-3;r++)
+  {
+    for (let c=0; c< columns-3; c++)
+    {
+      if (board[r][c] !='')
+      {
+        if (board[r][c]== board[r+1][c+1] && board[r+1][c+1]== board[r+2][c+2] && board[r+2][c+2]== board[r+3][c+3])
+        {
+          setWinner(r,c);
+          return;
+        }
+      }
+    }
+  }
+
+  //diagonale maggiore 
+
+  for (let r=3; r< rows;r++)
+  {
+    for (let c=0; c< columns-3; c++)
+    {
+      if (board[r][c] !='')
+      {
+        if (board[r][c]== board[r-1][c+1] && board[r-1][c+1]== board[r-2][c+2] && board[r-2][c+2]== board[r-3][c+3])
+        {
+          setWinner(r,c);
+          return;
+        }
+      }
+    }
+  }
+
+}
+
+function setWinner(r,c)
+{
+let winnwer = document.getElementById("winner");
+
+if (board[r][c]==giocatoreRosso)
+{
+  winnwer.innerText = "HA VINTO IL ROSSO!"
+}
+else
+{
+  winnwer.innerText = "HA VINTO IL GIALLO"
+}
+//gameOver= true;
+}
+
+
 $(document).ready(function()
 {
 
+
+  
+
 $("#Login").click(function()
 {
-    alert('cubi')
+    
 socket.emit("login", 
 {
 
@@ -134,12 +239,17 @@ socket.on('signup',function(data)
     {
         if (data.status == true)
         {
+
            document.getElementById("board").style.visibility='visible'
            document.getElementById("divlogin").style.visibility='hidden'
            document.getElementById("divsignup").style.visibility='hidden'
            
         }
+
+        /* inserire scritta quando username già presente*/ 
     });
+
+
 
 
 
