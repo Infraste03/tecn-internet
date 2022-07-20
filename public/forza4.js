@@ -4,16 +4,16 @@
 
 socket.on('connect',()=> {
 
-   alert('Benvenuti nel gioco!')
+   console.log('Benvenuti nel gioco!')
 
 } )
 
 socket.emit('custom-event', 10, 'Hi')
 
 //variabili per giocatori
-var giocatoreRosso = "R"
-var giocatoreGiallo= "G"
-var giocatoreStart= giocatoreRosso;
+var playerRed = "R"
+var playerYellow= "Y"
+var currPlayer= playerRed;
 //uncle pear
 
 //variabili per il gioco 
@@ -33,15 +33,15 @@ setGame();
 function setGame()
 {
     board = [];
-    currColumns=[5, 5, 5 ,5, 5, 5, 5];
+    currColumns=[5, 5, 5 ,5, 5, 5, 5]; //faccio sempre partire dall basso, così è come se simulassi la forza di gravità
 
     for(let r = 0; r< rows; r++)
     {
-        let rows= [];
+        let row= [];
         for (let c= 0; c < columns; c++)
         {
             //js
-            rows.push(' ');
+            row.push(' ');
 
             //html
             let tile = document.createElement('div');
@@ -49,8 +49,9 @@ function setGame()
             tile.classList.add('tile');
             tile.addEventListener('click',setPiece)
             document.getElementById('board').append(tile);
+            
         }
-        board.push(rows);
+        board.push(row);
     }
 }
 
@@ -60,7 +61,7 @@ function setPiece()
     {
         return;
     }
-    let coords =this.id.split("-")
+    let coords =this.id.split("-") // "0-0" ==> ["0","0"]
     let r = parseInt(coords[0]);
     let c = parseInt(coords[1]);
 
@@ -70,19 +71,24 @@ function setPiece()
         return;
     }
 
-    board [r][c] = giocatoreStart;
-    let tile = document.getElementById(r.toString()+"-" + c.toString());
-    if (giocatoreStart == giocatoreRosso)
+    board [r][c] = currPlayer;
+    //let tile = this;
+    
+    let tile = document.getElementById(r.toString()+ "-" + c.toString());
+    if (currPlayer == playerRed)
     {
         tile.classList.add("red-pice");
+        currPlayer = playerYellow;
         board[r][c]= 'red-pice';
-        giocatoreStart = giocatoreGiallo;
+        
+        
     }
     else
     {
         tile.classList.add("yellow-pice");
+        currPlayer = playerRed;
         board[r][c]= 'yellow-pice';
-        giocatoreStart = giocatoreRosso;
+        
     }
     r-= 1; // update l' altezza per le colonne
     currColumns[c] = r; //update the array of 
@@ -95,27 +101,30 @@ function setPiece()
 function checkWinner()
 {
   
- /*  //orizzontale 
+   //orizzontale 
   for (let r = 0; r < rows; r++)
   {
-    for (let c = 0; c < columns - 3;c++)
+    for (let c = 0; c < columns - 3; c++)
     {
       
-        if (board[r][c] =!'')
+        if (board[r][c] != ' ')
         {
           
+          //alert('pippozzzo')
           
-        if (board[r][c]==board[r][c+1]&& board[r][c+1]==board[r][c+2] )
+          
+        if (board[r][c]==board[r][c+1]&& board[r][c+1]==board[r][c+2] && board[r][c+2]==board[r][c+3] )
         {
-          alert(board[r][c+1])
-          alert(board[r][c+2])
-          alert(board[r][c+3])
+          //alert('riga' + r)
+          //alert('colonna' + c)
             
           setWinner(r,c);
           return;
         }
         
+        
         }
+       
     }
   }
 
@@ -125,24 +134,24 @@ function checkWinner()
   {
     for (let r = 0; r< rows -3;r++)
     {
-      if (board[r][c] ='')
+      if (board[r][c] !=' ')
       {
         if (board[r][c]==board[r+1][c]&&board[r+1][c]==board[r+2][c]&&board[r+2][c]==board[r+3][c])
-        {alert(r,c)
-            
-          setWinner(r,c);
-          return;
+        {
+            setWinner(r,c);
+            return;
         }
       }
     }
-  } */
+  } 
 
   //diagonale minore
+  
   for (let r=0; r< rows-3;r++)
   {
     for (let c=0; c< columns-3; c++)
     {
-      if (board[r][c] !='')
+      if (board[r][c] !=' ')
       {
         if (board[r][c]== board[r+1][c+1] && board[r+1][c+1]== board[r+2][c+2] && board[r+2][c+2]== board[r+3][c+3])
         {
@@ -159,7 +168,7 @@ function checkWinner()
   {
     for (let c=0; c< columns-3; c++)
     {
-      if (board[r][c] !='')
+      if (board[r][c] !=' ')
       {
         if (board[r][c]== board[r-1][c+1] && board[r-1][c+1]== board[r-2][c+2] && board[r-2][c+2]== board[r-3][c+3])
         {
@@ -176,7 +185,8 @@ function setWinner(r,c)
 {
 let winnwer = document.getElementById("winner");
 
-if (board[r][c]==giocatoreRosso)
+//da sistemre bene il vincitore
+if (board[r][c]==playerRed)
 {
   winnwer.innerText = "HA VINTO IL ROSSO!"
 }
@@ -184,7 +194,8 @@ else
 {
   winnwer.innerText = "HA VINTO IL GIALLO"
 }
-//gameOver= true;
+//
+gameOver= true;
 }
 
 
