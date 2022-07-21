@@ -1,8 +1,8 @@
  src="/socket.io/socket.io.js"
- //var socket=io.connect('http://localhost:3000/');
- var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
+ var socket=io.connect('http://localhost:3000/');
+ //var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
-
+//METTI BOARD VISIBLE APPENA CERC AMICI P 
 socket.on('connect',()=> {
 
    console.log('Benvenuti nel gioco!')
@@ -16,12 +16,15 @@ var playerRed = "R"
 var playerYellow= "Y"
 var currPlayer= playerRed;
 var yourName = ' ';
+var multiPl = 0;
 
 //uncle pear
 
 //variabili per il gioco 
 var gameOver = false;
 var sfida= ' ';
+var px ;
+var py;
 
 //variabili per la strutturaa dell area di gioco
 var board ;
@@ -70,6 +73,8 @@ function setPiece()
     let coords =this.id.split("-") // "0-0" ==> ["0","0"]
     let r = parseInt(coords[0]);
     let c = parseInt(coords[1]);
+    px=r;
+    py=c;
 
     r= currColumns[c];
     if (r< 0)
@@ -197,6 +202,31 @@ gameOver= true;
 
 $(document).ready(function()
 {
+if (multiPl==1)
+{
+  $(".board").click(function()
+{
+  socket.emit("mossa", 
+{
+ 
+  posizione_x :px,
+  posizione_y:py
+    
+
+});
+
+})
+
+socket.on('mossa',function(data)
+{
+  //guardaere bene come gestire le mosse!!!
+
+
+})
+
+}
+
+
   $("#buttonSearch").click(function()
 {
     
@@ -218,12 +248,15 @@ socket.emit("searchUser",
     
     if(data.username==yourName)
     {
-       var gio = prompt('sfida ricevuta')
+      //da scommenentare per herock
+       /* var gio = prompt('sfida ricevuta')
 
-      if(gio==true)
+      if(gio=='ok'|| 'OK')
       {
       document.getElementById("board").style.visibility='visible'
-      }
+      } */
+      document.getElementById("board").style.visibility='visible'
+      multiPl =1;
       
     }
   });
@@ -276,6 +309,11 @@ $("#idgiocomulti").click(function()
 
 });
 
+
+
+
+
+
 });
 
 socket.on('login',function(data)
@@ -304,6 +342,7 @@ socket.on('signup',function(data)
 
         /* inserire scritta quando username già presente*/ 
     });
+  
 
 
 

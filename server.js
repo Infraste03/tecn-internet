@@ -15,6 +15,8 @@ var Listsocket = [];
 
 
 
+
+
 console.log("Server - listening at port 3000 ");
   
   app.use(express.static(__dirname + "/../node_modules/"));
@@ -48,6 +50,25 @@ function functionServer()
  
   io.on("connection", function(socket)
   {
+
+    socket.on('mossa',function(data)
+    
+    {
+      for (let l=0; l<Listsocket;l++ )
+      {
+        if(Listsocket[l] =! socket.id)
+        {
+        io.to(Listsocket).emit('mossa',
+      {
+
+        posizione_x:data.posizione_x,
+        posizione_y:data.posizione_y
+
+      })
+    }
+    }
+
+    })
 
     socket.on('searchUser', function(data)
     {
