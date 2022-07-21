@@ -1,5 +1,6 @@
  src="/socket.io/socket.io.js"
- var socket=io.connect('http://localhost:3000/');
+ //var socket=io.connect('http://localhost:3000/');
+ var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 
 socket.on('connect',()=> {
