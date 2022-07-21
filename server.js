@@ -9,6 +9,9 @@ const server = http.Server(app).listen(process.env.PORT || 3000);
 const io = socketIo(server);
 
 
+var users =[]; //lista giocatore
+var Listsocket = [];
+
 
 
 
@@ -46,10 +49,43 @@ function functionServer()
   io.on("connection", function(socket)
   {
 
+    socket.on('searchUser', function(data)
+    {
+      
+      var query = "SELECT * FROM giocatore WHERE username = '" + data.searchUsername + "'";
+
+      con.query(query,function(error,rows,field)
+      {
+        if (error)
+      {
+        console.log('Server - search friend : Query error ' + error);
+      }
+      else
+      {
+        if(rows.length == 1)
+        {
+          console.log("Server - search : user " + data.searchUsername + " trovato nel db !!");
+          
+          
+
+          socket.broadcast.emit('searchUser', 
+          {
+            username: data.searchUsername
+          });
+
+          console.log(data.searchUsername)
+
+        }
+
+    }
+      });
+      
+
+    });
     
     console.log('Server - new login request ');
     socket.on('login',function(data)
-    {
+  {
 
     var query = "SELECT * FROM giocatore WHERE username = '" + data.logUsername + "' AND pwd = '" + data.logPwd + "'";
 
@@ -64,11 +100,15 @@ function functionServer()
         if(rows.length == 1)
         {
           console.log("Server - login : user " + data.logUsername + " logged !!");
+          users.push(data.logUsername)
+          Listsocket.push(socket.id)
+
           io.to(socket.id).emit('login', 
           {
             status: true,
             username: rows[0].name,
           });
+          
           
         }
         else
@@ -141,9 +181,14 @@ function functionServer()
 
   });
 
+ 
 
-  })
-  }
+
+    });
+
+  
+  };
+
 
 
 

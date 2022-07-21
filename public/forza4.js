@@ -14,16 +14,21 @@ socket.emit('custom-event', 10, 'Hi')
 var playerRed = "R"
 var playerYellow= "Y"
 var currPlayer= playerRed;
+var yourName = ' ';
+
 //uncle pear
 
 //variabili per il gioco 
 var gameOver = false;
+var sfida= ' ';
 
 //variabili per la strutturaa dell area di gioco
 var board ;
 var currColumns;
 var rows = 6;
 var columns = 7;
+
+
 
 window.onload = function()
 {
@@ -79,22 +84,17 @@ function setPiece()
     {
         tile.classList.add("red-pice");
         currPlayer = playerYellow;
-        board[r][c]= 'red-pice';
-        
-        
+
     }
     else
     {
         tile.classList.add("yellow-pice");
         currPlayer = playerRed;
-        board[r][c]= 'yellow-pice';
-        
+
     }
     r-= 1; // update l' altezza per le colonne
     currColumns[c] = r; //update the array of 
-    checkWinner();
-
-    
+    checkWinner();   
 
 }
 
@@ -109,16 +109,11 @@ function checkWinner()
       
         if (board[r][c] != ' ')
         {
-          
-          //alert('pippozzzo')
-          
-          
+
         if (board[r][c]==board[r][c+1]&& board[r][c+1]==board[r][c+2] && board[r][c+2]==board[r][c+3] )
+
         {
-          //alert('riga' + r)
-          //alert('colonna' + c)
-            
-          setWinner(r,c);
+        setWinner(r,c);
           return;
         }
         
@@ -185,7 +180,7 @@ function setWinner(r,c)
 {
 let winnwer = document.getElementById("winner");
 
-//da sistemre bene il vincitore
+
 if (board[r][c]==playerRed)
 {
   winnwer.innerText = "HA VINTO IL ROSSO!"
@@ -194,18 +189,45 @@ else
 {
   winnwer.innerText = "HA VINTO IL GIALLO"
 }
-//
+
 gameOver= true;
 }
 
 
 $(document).ready(function()
 {
+  $("#buttonSearch").click(function()
+{
+    
+socket.emit("searchUser", 
+{
 
+    
+    searchUsername : $("#idsearch").val(), 
+    username : yourName
+    
 
-  
+});
+});
 
-$("#Login").click(function()
+  socket.on('searchUser',function(data)
+  {
+   
+    
+    
+    if(data.username==yourName)
+    {
+       var gio = prompt('sfida ricevuta')
+
+      if(gio==true)
+      {
+      document.getElementById("board").style.visibility='visible'
+      }
+      
+    }
+  });
+
+  $("#Login").click(function()
 {
     
 socket.emit("login", 
@@ -233,16 +255,37 @@ socket.emit("signup",
 });
 });
 
+
+$("#idgiocopc").click(function()
+{
+  alert('voglio caricare la board')
+  document.getElementById("board").style.visibility='visible'
+  document.getElementById("idgiocopc").style.visibility='hidden'
+
+});
+
+//bottone multiplayer
+
+$("#idgiocomulti").click(function()
+{
+  
+  document.getElementById("board").style.visibility='visible'
+  document.getElementById("idgiocomulti").style.visibility='hidden'
+  document.getElementById("idgiocopc").style.visibility='hidden'
+
+});
+
 });
 
 socket.on('login',function(data)
     {
         if (data.status == true)
         {
-           document.getElementById("board").style.visibility='visible'
+           yourName= data.username
            document.getElementById("divlogin").style.visibility='hidden'
            document.getElementById("divsignup").style.visibility='hidden'
-           
+           document.getElementById("idgiocopc").style.visibility='visible'
+           document.getElementById("idgiocomulti").style.visibility='visible'
         }
     });
 
@@ -254,11 +297,16 @@ socket.on('signup',function(data)
            document.getElementById("board").style.visibility='visible'
            document.getElementById("divlogin").style.visibility='hidden'
            document.getElementById("divsignup").style.visibility='hidden'
+           document.getElementById("divgiocopc").style.visibility='hidden'
            
         }
 
         /* inserire scritta quando username già presente*/ 
     });
+
+
+
+
 
 
 
