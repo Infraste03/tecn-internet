@@ -11,6 +11,10 @@ const io = socketIo(server);
 
 var users =[]; //lista giocatore
 var Listsocket = [];
+pos_x= ''
+pos_y=''
+
+
 
 
 
@@ -44,6 +48,7 @@ con.connect(function(err)
 });
 
 functionServer();
+
 function functionServer()
 {
 
@@ -69,6 +74,17 @@ function functionServer()
     }
 
     })
+
+    for (let u=0; u<users; u++)
+    if (users[u]==users.id)
+    {
+    socket.emit('mossa')
+    {
+      pos_x
+      pos_y 
+    }
+  }
+
 
     socket.on('searchUser', function(data)
     {

@@ -1,6 +1,6 @@
  src="/socket.io/socket.io.js"
- var socket=io.connect('http://localhost:3000/');
- //var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
+// var socket=io.connect('http://localhost:3000/');
+var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 //METTI BOARD VISIBLE APPENA CERC AMICI P 
 socket.on('connect',()=> {
@@ -202,10 +202,10 @@ gameOver= true;
 
 $(document).ready(function()
 {
-if (multiPl==1)
+
+  $("#board").click(function()
 {
-  $(".board").click(function()
-{
+  alert('pippozzo')
   socket.emit("mossa", 
 {
  
@@ -219,12 +219,12 @@ if (multiPl==1)
 
 socket.on('mossa',function(data)
 {
-  //guardaere bene come gestire le mosse!!!
-
-
+ 
+data.posizione_x
+data.posizione_y
 })
 
-}
+
 
 
   $("#buttonSearch").click(function()
