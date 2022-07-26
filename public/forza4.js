@@ -249,14 +249,14 @@ socket.emit("searchUser",
     if(data.username==yourName)
     {
       //da scommenentare per herock
-       /* var gio = prompt('sfida ricevuta')
+       var gio = prompt('sfida ricevuta')
 
       if(gio=='ok'|| 'OK')
       {
       document.getElementById("board").style.visibility='visible'
-      } */
-      document.getElementById("board").style.visibility='visible'
-      multiPl =1;
+      }
+      //document.getElementById("board").style.visibility='visible'
+     // multiPl =1;
       
     }
   });
