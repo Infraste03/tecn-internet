@@ -23,8 +23,8 @@ var multiPl = 0;
 //variabili per il gioco 
 var gameOver = false;
 var sfida= ' ';
-var px ;
-var py;
+var posizione_x ;
+var posizione_y;
 
 //variabili per la strutturaa dell area di gioco
 var board ;
