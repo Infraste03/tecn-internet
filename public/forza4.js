@@ -206,22 +206,20 @@ $(document).ready(function()
   $("#board").click(function()
 {
   alert('pippozzo')
-  socket.emit("mossa", 
-{
- 
-  posizione_x :px,
-  posizione_y:py
-    
-
-});
+  socket.emit("click", posizione_x,posizione_y);
 
 })
 
-socket.on('mossa',function(data)
+socket.on('mossa',function(posizione_x,posizione_y,id)
 {
- 
-data.posizione_x
-data.posizione_y
+  for (let l=0; l<Listsocket;l++ )
+  {
+    if(id==socket.id)
+    {
+      setPiece();
+    }
+}
+
 })
 
 
@@ -249,7 +247,7 @@ socket.emit("searchUser",
     if(data.username==yourName)
     {
       //da scommenentare per herock
-       var gio = prompt('sfida ricevuta')
+       var gio = confirm('sfida ricevuta')
 
       if(gio=='ok'|| 'OK')
       {

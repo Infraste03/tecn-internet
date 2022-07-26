@@ -56,25 +56,19 @@ function functionServer()
   io.on("connection", function(socket)
   {
 
-    socket.on('mossa',function(data)
+    socket.on('click',function(posizione_x,posizione_y)
     
     {
       for (let l=0; l<Listsocket;l++ )
       {
         if(Listsocket[l] =! socket.id)
         {
-        io.to(Listsocket).emit('mossa',
-      {
-
-        posizione_x:data.posizione_x,
-        posizione_y:data.posizione_y
-
-      })
+        io.to(Listsocket).emit('mossa',posizione_x,posizione_y,socket.id)
     }
     }
 
     })
-
+/* 
     for (let u=0; u<users; u++)
     if (users[u]==users.id)
     {
@@ -83,7 +77,7 @@ function functionServer()
       pos_x
       pos_y 
     }
-  }
+  } */
 
 
     socket.on('searchUser', function(data)
