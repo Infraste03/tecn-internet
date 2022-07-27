@@ -246,7 +246,7 @@ $(document).ready(function()
 
   $("#board").click(function()
 {
-  alert('pippozzo')
+  
   socket.emit("click", posizione_x,posizione_y);
 
 })
