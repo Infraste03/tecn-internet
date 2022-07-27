@@ -1,5 +1,5 @@
  src="/socket.io/socket.io.js"
-//var socket=io.connect('http://localhost:3000/');
+//var socket=io.connect('http://localhost:3000/'); //IN LOCALE
 var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 //METTI BOARD VISIBLE APPENA CERC AMICI P 
@@ -7,20 +7,20 @@ var messageContainer = document.getElementById('message-container')
 var messageForm = document.getElementById('send-container')
 var messageInput = document.getElementById('message-input')
 
-var nicknme = prompt('What is your name?')
+var nickname = prompt('What is your name?')
 appendMessage('You joined')
-socket.emit('new-user', nicknme)
+socket.emit('new-user', nickname)
 
 socket.on('chat-message', data => {
-  appendMessage(`${data.nicknme}: ${data.message}`)
+  appendMessage(`${data.nickname}: ${data.message}`)
 })
 
-socket.on('user-connected', nicknme => {
-  appendMessage(`${nicknme} connected`)
+socket.on('user-connected', nickname => {
+  appendMessage(`${nickname} connected`)
 })
 
-socket.on('user-disconnected', nicknme => {
-  appendMessage(`${nicknme} disconnected`)
+socket.on('user-disconnected', nickname => {
+  appendMessage(`${nickname} disconnected`)
 })
 
 
@@ -29,7 +29,7 @@ messageForm.addEventListener('submit', e => {
   const message = messageInput.value
   appendMessage(`You: ${message}`)
   socket.emit('send-chat-message', message)
-  messageInput.value = 'prova'
+  messageInput.value = ''
 })
 
 function appendMessage(message) {
@@ -321,8 +321,7 @@ $("#Signup").click(function()
 socket.emit("signup", 
 {
 
-    signName : $("#name").val(),
-    signSurname : $("#surname").val(), 
+   
     signPwd: $("#pwd1").val(),
     signUsername : $("#username1").val(), 
     
@@ -333,7 +332,7 @@ socket.emit("signup",
 
 $("#idgiocopc").click(function()
 {
-  alert('voglio caricare la board')
+  
   document.getElementById("board").style.visibility='visible'
   document.getElementById("idgiocopc").style.visibility='hidden'
 

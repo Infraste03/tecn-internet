@@ -26,6 +26,12 @@ console.log("Server - listening at port 3000 ");
     stream.pipe(res);
   });
 
+  app.get("/ciao", (req, res) => 
+  {
+    const stream = fs.createReadStream(__dirname + "/public/ciao.html");
+    stream.pipe(res);
+  });
+
 
 var con = mysql.createConnection({
   host: "mysql-forza4.alwaysdata.net",
@@ -46,16 +52,16 @@ functionServer();
 function functionServer()
 {
   io.on('connection', socket => {
-    socket.on('new-user', name => {
-      users[socket.id] = name
-      socket.broadcast.emit('user-connected', name)
+    socket.on('new-user', nickname => {
+      utenti[socket.id] = nickname
+      socket.broadcast.emit('user-connected', nickname)
     })
     socket.on('send-chat-message', message => {
-      socket.broadcast.emit('chat-message', { message: message, name: users[socket.id] })
+      socket.broadcast.emit('chat-message', { message: message, nickname: utenti[socket.id] })
     })
     socket.on('disconnect', () => {
-      socket.broadcast.emit('user-disconnected', users[socket.id])
-      delete users[socket.id]
+      socket.broadcast.emit('user-disconnected', utenti[socket.id])
+      delete utenti[socket.id]
     })
   })
 
@@ -187,7 +193,7 @@ function functionServer()
 
     else 
     {
-      var query = "INSERT INTO giocatore (name, surname,username,pwd) VALUES ('" + data.signName + "','" + data.signSurname + "','" + data.signUsername + "','"+ data.signPwd + "')";
+      var query = "INSERT INTO giocatore (username,pwd) VALUES ('" + data.signUsername + "','"+ data.signPwd + "')";
 
       con.query(query,function(error,rows,field)
       {
