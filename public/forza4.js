@@ -1,13 +1,52 @@
  src="/socket.io/socket.io.js"
-// var socket=io.connect('http://localhost:3000/');
-var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
+var socket=io.connect('http://localhost:3000/');
+//var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 //METTI BOARD VISIBLE APPENA CERC AMICI P 
+var messageContainer = document.getElementById('message-container')
+var messageForm = document.getElementById('send-container')
+var messageInput = document.getElementById('message-input')
+
+var nicknme = prompt('What is your name?')
+appendMessage('You joined')
+socket.emit('new-user', nicknme)
+
+socket.on('chat-message', data => {
+  appendMessage(`${data.nicknme}: ${data.message}`)
+})
+
+socket.on('user-connected', nicknme => {
+  appendMessage(`${nicknme} connected`)
+})
+
+socket.on('user-disconnected', nicknme => {
+  appendMessage(`${nicknme} disconnected`)
+})
+
+
+messageForm.addEventListener('submit', e => {
+  e.preventDefault()
+  const message = messageInput.value
+  appendMessage(`You: ${message}`)
+  socket.emit('send-chat-message', message)
+  messageInput.value = 'prova'
+})
+
+function appendMessage(message) {
+  const messageElement = document.createElement('div')
+  messageElement.innerText = message
+  messageContainer.append(messageElement)
+}
+
+
+
+
 socket.on('connect',()=> {
 
    console.log('Benvenuti nel gioco!')
 
 } )
+
 
 socket.emit('custom-event', 10, 'Hi')
 
@@ -23,20 +62,22 @@ var multiPl = 0;
 //variabili per il gioco 
 var gameOver = false;
 var sfida= ' ';
-var posizione_x ;
-var posizione_y;
+
 
 //variabili per la strutturaa dell area di gioco
 var board ;
 var currColumns;
 var rows = 6;
 var columns = 7;
+var posizione_x = '';
+var posizione_y='';
 
 
 
 window.onload = function()
 {
 setGame();
+
 }
 
 function setGame()
@@ -64,7 +105,7 @@ function setGame()
     }
 }
 
-function setPiece()
+function setPiece(posizione_x,posizione_y)
 {
     if (gameOver)
     {
@@ -216,12 +257,11 @@ socket.on('mossa',function(posizione_x,posizione_y,id)
   {
     if(id==socket.id)
     {
-      setPiece();
+      setPiece(posizione_x,posizione_y);
     }
 }
 
 })
-
 
 
 
@@ -238,6 +278,9 @@ socket.emit("searchUser",
 
 });
 });
+
+
+
 
   socket.on('searchUser',function(data)
   {
@@ -306,6 +349,7 @@ $("#idgiocomulti").click(function()
   document.getElementById("idgiocopc").style.visibility='hidden'
 
 });
+
 
 
 
