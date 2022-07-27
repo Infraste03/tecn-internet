@@ -1,9 +1,9 @@
- src="/socket.io/socket.io.js"
+src="/socket.io/socket.io.js"
 //var socket=io.connect('http://localhost:3000/'); //IN LOCALE
 var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 //METTI BOARD VISIBLE APPENA CERC AMICI P 
-var messageContainer = document.getElementById('message-container')
+/* var messageContainer = document.getElementById('message-container')
 var messageForm = document.getElementById('send-container')
 var messageInput = document.getElementById('message-input')
 
@@ -36,7 +36,7 @@ function appendMessage(message) {
   const messageElement = document.createElement('div')
   messageElement.innerText = message
   messageContainer.append(messageElement)
-}
+} */
 
 
 
@@ -54,7 +54,7 @@ socket.emit('custom-event', 10, 'Hi')
 var playerRed = "R"
 var playerYellow= "Y"
 var currPlayer= playerRed;
-var yourName = ' ';
+var yourName;
 var multiPl = 0;
 
 //uncle pear
@@ -273,7 +273,7 @@ socket.emit("searchUser",
 
     
     searchUsername : $("#idsearch").val(), 
-    username : yourName
+    yourName : username
     
 
 });
@@ -285,11 +285,9 @@ socket.emit("searchUser",
   socket.on('searchUser',function(data)
   {
    
-    
-    
-    if(data.username==yourName)
+     if(yourName==data.username)
     {
-      alert('prova se va')
+      
       //da scommenentare per herock
        var gio = confirm('sfida ricevuta')
 
@@ -322,9 +320,9 @@ $("#Signup").click(function()
 socket.emit("signup", 
 {
 
-   
+   signUsername : $("#username1").val(), 
     signPwd: $("#pwd1").val(),
-    signUsername : $("#username1").val(), 
+    
     
 
 });
@@ -362,7 +360,8 @@ socket.on('login',function(data)
     {
         if (data.status == true)
         {
-           yourName= data.username
+          yourName= data.username
+           //yourName  :data.username
            document.getElementById("divlogin").style.visibility='hidden'
            document.getElementById("divsignup").style.visibility='hidden'
            document.getElementById("idgiocopc").style.visibility='visible'

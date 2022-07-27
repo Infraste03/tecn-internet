@@ -26,11 +26,7 @@ console.log("Server - listening at port 3000 ");
     stream.pipe(res);
   });
 
-  app.get("/ciao", (req, res) => 
-  {
-    const stream = fs.createReadStream(__dirname + "/public/ciao.html");
-    stream.pipe(res);
-  });
+  /*  */
 
 
 var con = mysql.createConnection({
@@ -51,7 +47,7 @@ functionServer();
 
 function functionServer()
 {
-  io.on('connection', socket => {
+  /* io.on('connection', socket => {
     socket.on('new-user', nickname => {
       utenti[socket.id] = nickname
       socket.broadcast.emit('user-connected', nickname)
@@ -64,7 +60,7 @@ function functionServer()
       delete utenti[socket.id]
     })
   })
-
+ */
  
   io.on("connection", function(socket)
   {
@@ -116,8 +112,12 @@ function functionServer()
 
           socket.broadcast.emit('searchUser', 
           {
-            username: data.searchUsername
+            username : data.searchUsername
+            
           });
+
+        /*   username =data.searchUsername
+          socket.connect[username].emit('searchUser', data.searchUsername) */
 
           console.log(data.searchUsername)
 
@@ -152,7 +152,7 @@ function functionServer()
           io.to(socket.id).emit('login', 
           {
             status: true,
-            username: rows[0].name,
+            username: data.logUsername
           });
           
           
