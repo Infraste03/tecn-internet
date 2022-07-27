@@ -289,6 +289,7 @@ socket.emit("searchUser",
     
     if(data.username==yourName)
     {
+      alert('prova se va')
       //da scommenentare per herock
        var gio = confirm('sfida ricevuta')
 
