@@ -1,6 +1,6 @@
  src="/socket.io/socket.io.js"
-var socket=io.connect('http://localhost:3000/');
-//var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
+//var socket=io.connect('http://localhost:3000/');
+var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 //METTI BOARD VISIBLE APPENA CERC AMICI P 
 var messageContainer = document.getElementById('message-container')
