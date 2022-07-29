@@ -3,7 +3,7 @@ src="/socket.io/socket.io.js"
 var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 //METTI BOARD VISIBLE APPENA CERC AMICI P 
-/* var messageContainer = document.getElementById('message-container')
+var messageContainer = document.getElementById('message-container')
 var messageForm = document.getElementById('send-container')
 var messageInput = document.getElementById('message-input')
 
@@ -36,7 +36,7 @@ function appendMessage(message) {
   const messageElement = document.createElement('div')
   messageElement.innerText = message
   messageContainer.append(messageElement)
-} */
+}
 
 
 
@@ -71,6 +71,8 @@ var rows = 6;
 var columns = 7;
 var posizione_x = '';
 var posizione_y='';
+var posx ='';
+var posy='';
 
 
 
@@ -79,6 +81,73 @@ window.onload = function()
 setGame();
 
 }
+
+
+function setGameMultiPl()
+{
+    board = [];
+    currColumns=[5, 5, 5 ,5, 5, 5, 5]; //faccio sempre partire dall basso, così è come se simulassi la forza di gravità
+
+    for(let r = 0; r< rows; r++)
+    {
+        let row= [];
+        for (let c= 0; c < columns; c++)
+        {
+            //js
+            row.push(' ');
+
+            //html
+            let tile = document.createElement('div');
+            tile.id= r.toString() + "-" + c.toString();
+            tile.classList.add('tile');
+            tile.addEventListener('click',setPieceMultiPl)
+            document.getElementById('board').append(tile);
+            
+        }
+        board.push(row);
+    }
+}
+
+function setPieceMultiPl(posx,posy)
+{
+
+  if (gameOver)
+    {
+        return;
+    }
+    let coords =this.id.split("-") // "0-0" ==> ["0","0"]
+    posx= parseInt(coords[0]);
+    posy= parseInt(coords[1]);
+    
+
+    posx= currColumns[c];
+    if (posx< 0)
+    {
+        return;
+    }
+
+    board [posx][posy] = currPlayer;
+    
+    
+    let tile = document.getElementById(posx.toString()+ "-" + posy.toString());
+    if (currPlayer == playerRed)
+    {
+        tile.classList.add("red-pice");
+        currPlayer = playerYellow;
+
+    }
+    else
+    {
+        tile.classList.add("yellow-pice");
+        currPlayer = playerRed;
+
+    }
+    posx-= 1; // update l' altezza per le colonne
+    currColumns[posy] = posx; //update the array of 
+    checkWinner();   
+
+}
+
 
 function setGame()
 {
@@ -105,7 +174,7 @@ function setGame()
     }
 }
 
-function setPiece(posizione_x,posizione_y)
+function setPiece()
 {
     if (gameOver)
     {
@@ -114,8 +183,7 @@ function setPiece(posizione_x,posizione_y)
     let coords =this.id.split("-") // "0-0" ==> ["0","0"]
     let r = parseInt(coords[0]);
     let c = parseInt(coords[1]);
-    px=r;
-    py=c;
+    
 
     r= currColumns[c];
     if (r< 0)
@@ -124,7 +192,7 @@ function setPiece(posizione_x,posizione_y)
     }
 
     board [r][c] = currPlayer;
-    //let tile = this;
+    
     
     let tile = document.getElementById(r.toString()+ "-" + c.toString());
     if (currPlayer == playerRed)
@@ -244,24 +312,51 @@ gameOver= true;
 $(document).ready(function()
 {
 
-  $("#board").click(function()
+/*   $("#board").click(function()
 {
   
-  socket.emit("click", posizione_x,posizione_y);
+  socket.emit("mossa", posx,posy);
 
-})
+}) */
 
-socket.on('mossa',function(posizione_x,posizione_y,id)
+/* socket.on('mossa',function(posizione_x,posizione_y,id)
 {
   for (let l=0; l<Listsocket;l++ )
   {
     if(id==socket.id)
     {
-      setPiece(posizione_x,posizione_y);
+      setPieceMultiPl(posizione_x,posizione_y);
     }
 }
 
-})
+}) */
+
+$("#board").click(function()
+
+{
+  
+    
+  socket.emit("mossa", 
+  {
+    setGameMultiPl(posx, posy)
+    {
+      posizione_x : posx
+      posizione_y : posy
+      
+    }
+    
+   
+   
+  });
+  });
+
+
+  socket.on('mossa',function(data)
+  {
+   
+   alert('server ricevuto')
+    
+  });
 
 
 

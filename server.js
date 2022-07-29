@@ -47,7 +47,7 @@ functionServer();
 
 function functionServer()
 {
-  /* io.on('connection', socket => {
+  io.on('connection', socket => {
     socket.on('new-user', nickname => {
       utenti[socket.id] = nickname
       socket.broadcast.emit('user-connected', nickname)
@@ -60,24 +60,27 @@ function functionServer()
       delete utenti[socket.id]
     })
   })
- */
+
  
   io.on("connection", function(socket)
   {
   
- 
-    socket.on('click',function(posizione_x,posizione_y)
     
-    {
+ 
+    socket.on('mossa',() => {
+      socket.broadcast.emit('user-mossa', utenti[socket.id])
+      
+    })
+     /*  
       for (let l=0; l<Listsocket;l++ )
       {
         if(Listsocket[l] =! socket.id)
         {
         io.to(Listsocket).emit('mossa',posizione_x,posizione_y,socket.id)
     }
-    }
+    } */
 
-    })
+    
 /* 
     for (let u=0; u<users; u++)
     if (users[u]==users.id)
