@@ -1,6 +1,88 @@
 src="/socket.io/socket.io.js"
-//var socket=io.connect('http://localhost:3000/'); //IN LOCALE
-var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
+var socket=io.connect('http://localhost:3000/'); //IN LOCALE
+//var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
+
+var posizionex ='';
+var posizioney='';
+//variabili per giocatori
+var playerRed = "R"
+var playerYellow= "Y"
+var currPlayer= playerRed;
+var yourName;
+var multiPl = 0;
+
+
+var cell00 = document.getElementById('0-0"');
+var cell01 = document.getElementById('0-1"');
+var cell02 = document.getElementById('0-2"');
+var cell03 = document.getElementById('0-3"');
+var cell04 = document.getElementById('0-4"');
+var cell05 = document.getElementById('0-5"');
+var cell06 = document.getElementById('0-6"');
+
+
+var cell10 = document.getElementById('1-0"');
+var cell11 = document.getElementById('1-1"');
+var cell12 = document.getElementById('1-2"');
+var cell13 = document.getElementById('1-3"');
+var cell14 = document.getElementById('1-4"');
+var cell15 = document.getElementById('1-5"');
+var cell16 = document.getElementById('1-6"');
+
+var cell20 = document.getElementById('2-0"');
+var cell21 = document.getElementById('2-1"');
+var cell22 = document.getElementById('2-2"');
+var cell23 = document.getElementById('2-3"');
+var cell24 = document.getElementById('2-4"');
+var cell25 = document.getElementById('2-5"');
+var cell26 = document.getElementById('2-6"');
+
+
+var cell30 = document.getElementById('3-0"');
+var cell31 = document.getElementById('3-1"');
+var cell32 = document.getElementById('3-2"');
+var cell33 = document.getElementById('3-3"');
+var cell34 = document.getElementById('3-4"');
+var cell35 = document.getElementById('3-5"');
+var cell36 = document.getElementById('3-6"');
+
+
+var cell40 = document.getElementById('4-0"');
+var cell41 = document.getElementById('4-1"');
+var cell42 = document.getElementById('4-2"');
+var cell43 = document.getElementById('4-3"');
+var cell44 = document.getElementById('4-4"');
+var cell45 = document.getElementById('4-5"');
+var cell46 = document.getElementById('4-6"');
+
+
+
+var cell50 = document.getElementById('5-0"');
+var cell51 = document.getElementById('5-1"');
+var cell52 = document.getElementById('5-2"');
+var cell53 = document.getElementById('5-3"');
+var cell54 = document.getElementById('5-4"');
+var cell55 = document.getElementById('5-5"');
+var cell56 = document.getElementById('5-6"');
+
+
+//uncle pear
+
+//variabili per il gioco 
+var gameOver = false;
+var sfida= ' ';
+
+
+//variabili per la strutturaa dell area di gioco
+var board ;
+var currColumns;
+var rows = 6;
+var columns = 7;
+var posizione_x = '';
+var posizione_y='';
+var posx ='';
+var posy='';
+
 
 //METTI BOARD VISIBLE APPENA CERC AMICI P 
 var messageContainer = document.getElementById('message-container')
@@ -50,62 +132,72 @@ socket.on('connect',()=> {
 
 socket.emit('custom-event', 10, 'Hi')
 
-//variabili per giocatori
-var playerRed = "R"
-var playerYellow= "Y"
-var currPlayer= playerRed;
-var yourName;
-var multiPl = 0;
-
-//uncle pear
-
-//variabili per il gioco 
-var gameOver = false;
-var sfida= ' ';
-
-
-//variabili per la strutturaa dell area di gioco
-var board ;
-var currColumns;
-var rows = 6;
-var columns = 7;
-var posizione_x = '';
-var posizione_y='';
-var posx ='';
-var posy='';
-
-
-
-window.onload = function()
-{
-setGame();
-
-}
 
 
 function setGameMultiPl()
 {
-    board = [];
-    currColumns=[5, 5, 5 ,5, 5, 5, 5]; //faccio sempre partire dall basso, così è come se simulassi la forza di gravità
+    //board = [];
+   // currColumns=[5, 5, 5 ,5, 5, 5, 5]; //faccio sempre partire dall basso, così è come se simulassi la forza di gravità
+   
+   document.getElementById("board").style.visibility='visible'
 
-    for(let r = 0; r< rows; r++)
+
+   function addEventCell(cell) {
+    cell.addEventListener('click', function (event) {
+        if (cell.textContent == "") {
+            if (round == true && checkResult == "") {
+                round = false;
+                socket.emit('mossa', {
+                    roomName: roomName,
+                    idCella: cell.id,
+                    simbolo: symbol,
+                });
+            } else {
+                alert("Attendi il tuo round per poter fare la tua mossa.");
+            }
+        }
+    });
+}
+
+//aggiungo evento alle celle del campo
+addEventCell(cell0);
+addEventCell(cell1);
+addEventCell(cell2);
+addEventCell(cell3);
+addEventCell(cell4);
+addEventCell(cell5);
+addEventCell(cell6);
+addEventCell(cell7);
+addEventCell(cell8);
+
+
+   /*  for(let r = 0; r< rows; r++)
     {
         let row= [];
         for (let c= 0; c < columns; c++)
         {
+
+          let tile = document.createElement('div');
             //js
             row.push(' ');
 
             //html
-            let tile = document.createElement('div');
+            
+            
             tile.id= r.toString() + "-" + c.toString();
+            
             tile.classList.add('tile');
-            tile.addEventListener('click',setPieceMultiPl)
+            
             document.getElementById('board').append(tile);
             
         }
         board.push(row);
-    }
+    } */
+
+    /* tile.addEventListener('click',
+    alert("pippozzo1")
+    //setPieceMultiPl(posx,posy)
+    ) */
 }
 
 function setPieceMultiPl(posx,posy)
@@ -115,9 +207,10 @@ function setPieceMultiPl(posx,posy)
     {
         return;
     }
-    let coords =this.id.split("-") // "0-0" ==> ["0","0"]
-    posx= parseInt(coords[0]);
-    posy= parseInt(coords[1]);
+    //let coords =this.id.split("-") // "0-0" ==> ["0","0"]
+    posx= parseInt(posx);
+    posy= parseInt(posy);
+    alert('posx'+posx)
     
 
     posx= currColumns[posy];
@@ -312,12 +405,12 @@ gameOver= true;
 $(document).ready(function()
 {
 
-/*   $("#board").click(function()
+   $("#board").click(function()
 {
   
   socket.emit("mossa", posx,posy);
 
-}) */
+}) 
 
 /* socket.on('mossa',function(posizione_x,posizione_y,id)
 {
@@ -331,32 +424,28 @@ $(document).ready(function()
 
 }) */
 
-$("#board").click(function()
-
-{
   
     
   socket.emit("mossa", 
   {
-    setGameMultiPl(posx, posy)
-    {
-      posizione_x : posx
-      posizione_y : posy
-      
-    }
     
-   
-   
+    posx:posizionex,
+    posy:posizioney
+
   });
-  });
+  
+ 
 
 
   socket.on('mossa',function(data)
   {
-   
-   alert('server ricevuto')
     
-  });
+   
+    //setPieceMultiPl(data.posx, data.posy)
+  })
+
+
+  
 
 
 
@@ -382,7 +471,7 @@ socket.emit("searchUser",
    
      if(yourName==data.username)
     {
-      
+      setGameMultiPl()
       //da scommenentare per herock
        var gio = confirm('sfida ricevuta')
 
@@ -426,7 +515,7 @@ socket.emit("signup",
 
 $("#idgiocopc").click(function()
 {
-  
+ setGame() 
   document.getElementById("board").style.visibility='visible'
   document.getElementById("idgiocopc").style.visibility='hidden'
 
