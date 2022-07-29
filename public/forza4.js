@@ -3,7 +3,7 @@ src="/socket.io/socket.io.js"
 var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 //METTI BOARD VISIBLE APPENA CERC AMICI P 
-var messageContainer = document.getElementById('message-container')
+/* var messageContainer = document.getElementById('message-container')
 var messageForm = document.getElementById('send-container')
 var messageInput = document.getElementById('message-input')
 
@@ -36,7 +36,7 @@ function appendMessage(message) {
   const messageElement = document.createElement('div')
   messageElement.innerText = message
   messageContainer.append(messageElement)
-}
+} */
 
 
 

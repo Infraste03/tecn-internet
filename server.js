@@ -47,7 +47,7 @@ functionServer();
 
 function functionServer()
 {
-  io.on('connection', socket => {
+  /* io.on('connection', socket => {
     socket.on('new-user', nickname => {
       utenti[socket.id] = nickname
       socket.broadcast.emit('user-connected', nickname)
@@ -60,7 +60,7 @@ function functionServer()
       delete utenti[socket.id]
     })
   })
-
+ */
  
   io.on("connection", function(socket)
   {
