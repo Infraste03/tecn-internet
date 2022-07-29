@@ -120,7 +120,7 @@ function setPieceMultiPl(posx,posy)
     posy= parseInt(coords[1]);
     
 
-    posx= currColumns[c];
+    posx= currColumns[posy];
     if (posx< 0)
     {
         return;
