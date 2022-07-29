@@ -8,6 +8,7 @@ var mysql = require('mysql');
 const server = http.Server(app).listen(process.env.PORT || 3000);
 const io = socketIo(server);
 
+
 const utenti = {}
 var users =[]; //lista giocatore
 var Listsocket = [];
@@ -61,16 +62,27 @@ function functionServer()
     })
   })
 
+
+  
+
  
   io.on("connection", function(socket)
   {
   
+    socket.on('mossa',function(data)
+  {
+    
+    /* data.posx
+    data.posy */
+    //users[socket.id]= data.posizionex,data.posizioney
+    socket.broadcast.emit('mossa',data.posx,data.posy)
+  })
     
  
-    socket.on('mossa',() => {
+   /*  socket.on('mossa',() => {
       socket.broadcast.emit('user-mossa', utenti[socket.id])
       
-    })
+    }) */
      /*  
       for (let l=0; l<Listsocket;l++ )
       {
