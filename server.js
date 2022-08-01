@@ -71,20 +71,22 @@ function functionServer()
   {
   
     socket.on('mossa',function(data)
-  {
-    console.log(data)
-    
-    /* var poizx=data.posizionex;
-    var poizy=data.posizioney;
-    console.log( 'posizione x' +poizx + poizy) */
-    ///console.log(data.posizioney)
-    
-    
-    /* data.posx
-    data.posy */
-    //users[socket.id]= data.posizionex,data.posizioney
-    socket.broadcast.emit('mossa',data)
-  })
+    {
+      
+      
+  
+      io.emit('mossa1',
+      {
+        
+        p:data.posiz
+        
+  
+      }
+      
+      
+      )
+      console.log("ciao")
+    })
     
  
    /*  socket.on('mossa',() => {

@@ -59,8 +59,7 @@ var cell46 = document.getElementById('4-6');
 var cell50 = document.getElementById('5-0');
 var cell51 = document.getElementById('5-1');
 var cell52 = document.getElementById('5-2');
-var cell53 = document.getElementById('5-3'); //il polpo. Il pOOOlpo. IIIIIL POOOOOOOOOOOOOOOOOOOLPO non si è fermato maaai unmomeeeeento!
-
+var cell53 = document.getElementById('5-3'); //il polpo. Il pOOOlpo. IIIIIL POOOOOOOOOOOOOOOOOOOLPO non si è fermato maaai unmo
 var cell54 = document.getElementById('5-4');
 var cell55 = document.getElementById('5-5');
 var cell56 = document.getElementById('5-6');
@@ -75,7 +74,7 @@ var sfida= ' ';
 
 
 //variabili per la strutturaa dell area di gioco
-var board ;
+var board;
 var currColumns;
 var rows = 6;
 var columns = 7;
@@ -202,12 +201,7 @@ addEventCell(cell8); */
     ) */
 
 
-    socket.on('mossa',function(data)
-    {
-      alert(data.idCella)
-     
-      //setPieceMultiPl(data.posx, data.posy)
-    })
+   
 
 
 
@@ -455,60 +449,56 @@ if (board[r][c]==playerYellow)
 gameOver= true;
 }
 
+function pippo(pos){
+
+
+  alert("pos"+pos);
+  
+    socket.emit("mossa", 
+  {
+
+     posiz:pos
+
+  });
+
+  
+
+}
+
+socket.on('mossa1',function(data)
+  {
+
+  alert("data.p"+data.p)
+   
+
+  
+    if (currPlayer == playerRed)
+    {
+        //tile.classList.add("red-pice");
+        document.getElementById(data.p).style.backgroundColor = "red";
+        currPlayer = playerYellow;
+        
+
+    }
+    else
+    {
+        //tile.classList.add("yellow-pice");
+        document.getElementById(data.p).style.backgroundColor = "yellow";
+        currPlayer = playerRed
+       
+        
+
+    }
+  
+    //checkWinner();  
+
+  });
+
 
 $(document).ready(function()
 {
 
-
-  function addEventCell(tile) 
-{
-  
-
-  tile.addEventListener('click', function (event) {
-     
-              
-              socket.emit('mossa', {
-                  
-                  idCella: tile,
-                  //simbolo: symbol,
-              });
-              addEventCell(cell00);
-              addEventCell(cell01);
-              addEventCell(cell02);
-              addEventCell(cell03);
-              addEventCell(cell04);
-              addEventCell(cell05);
-              addEventCell(cell06);
-              
-              addEventCell(cell10);
-              addEventCell(cell11);
-              addEventCell(cell12);
-              addEventCell(cell13);
-              addEventCell(cell14);
-              addEventCell(cell15);
-              addEventCell(cell16);
-              
-              
-              addEventCell(cell50);
-              addEventCell(cell51);
-              addEventCell(cell52);
-              addEventCell(cell53);
-              addEventCell(cell54);
-              addEventCell(cell55);
-              addEventCell(cell56);
-
-
-
-              
-          
-  });
-}
-   $("#board").click(function()
-{
-  
-  socket.emit("mossa", posx,posy);
-
-}) 
+ 
 
 /* socket.on('mossa',function(posizione_x,posizione_y,id)
 {
