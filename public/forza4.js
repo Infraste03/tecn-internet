@@ -2,8 +2,7 @@ src="/socket.io/socket.io.js"
 var socket=io.connect('http://localhost:3000/'); //IN LOCALE
 //var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
-var posizionex ='';
-var posizioney='';
+
 //variabili per giocatori
 var playerRed = "R"
 var playerYellow= "Y"
@@ -12,64 +11,66 @@ var yourName;
 var multiPl = 0;
 
 
-var cell00 = document.getElementById('0-0"');
-var cell01 = document.getElementById('0-1"');
-var cell02 = document.getElementById('0-2"');
-var cell03 = document.getElementById('0-3"');
-var cell04 = document.getElementById('0-4"');
-var cell05 = document.getElementById('0-5"');
-var cell06 = document.getElementById('0-6"');
+var cell00 = document.getElementById('0-0');
+var cell01 = document.getElementById('0-1');
+var cell02 = document.getElementById('0-2');
+var cell03 = document.getElementById('0-3');
+var cell04 = document.getElementById('0-4');
+var cell05 = document.getElementById('0-5');
+var cell06 = document.getElementById('0-6');
 
 
-var cell10 = document.getElementById('1-0"');
-var cell11 = document.getElementById('1-1"');
-var cell12 = document.getElementById('1-2"');
-var cell13 = document.getElementById('1-3"');
-var cell14 = document.getElementById('1-4"');
-var cell15 = document.getElementById('1-5"');
-var cell16 = document.getElementById('1-6"');
+var cell10 = document.getElementById('1-0');
+var cell11 = document.getElementById('1-1');
+var cell12 = document.getElementById('1-2');
+var cell13 = document.getElementById('1-3');
+var cell14 = document.getElementById('1-4');
+var cell15 = document.getElementById('1-5');
+var cell16 = document.getElementById('1-6');
 
-var cell20 = document.getElementById('2-0"');
-var cell21 = document.getElementById('2-1"');
-var cell22 = document.getElementById('2-2"');
-var cell23 = document.getElementById('2-3"');
-var cell24 = document.getElementById('2-4"');
-var cell25 = document.getElementById('2-5"');
-var cell26 = document.getElementById('2-6"');
-
-
-var cell30 = document.getElementById('3-0"');
-var cell31 = document.getElementById('3-1"');
-var cell32 = document.getElementById('3-2"');
-var cell33 = document.getElementById('3-3"');
-var cell34 = document.getElementById('3-4"');
-var cell35 = document.getElementById('3-5"');
-var cell36 = document.getElementById('3-6"');
+var cell20 = document.getElementById('2-0');
+var cell21 = document.getElementById('2-1');
+var cell22 = document.getElementById('2-2');
+var cell23 = document.getElementById('2-3');
+var cell24 = document.getElementById('2-4');
+var cell25 = document.getElementById('2-5');
+var cell26 = document.getElementById('2-6');
 
 
-var cell40 = document.getElementById('4-0"');
-var cell41 = document.getElementById('4-1"');
-var cell42 = document.getElementById('4-2"');
-var cell43 = document.getElementById('4-3"');
-var cell44 = document.getElementById('4-4"');
-var cell45 = document.getElementById('4-5"');
-var cell46 = document.getElementById('4-6"');
+var cell30 = document.getElementById('3-0');
+var cell31 = document.getElementById('3-1');
+var cell32 = document.getElementById('3-2');
+var cell33 = document.getElementById('3-3');
+var cell34 = document.getElementById('3-4');
+var cell35 = document.getElementById('3-5');
+var cell36 = document.getElementById('3-6');
+
+
+var cell40 = document.getElementById('4-0');
+var cell41 = document.getElementById('4-1');
+var cell42 = document.getElementById('4-2');
+var cell43 = document.getElementById('4-3');
+var cell44 = document.getElementById('4-4');
+var cell45 = document.getElementById('4-5');
+var cell46 = document.getElementById('4-6');
 
 
 
-var cell50 = document.getElementById('5-0"');
-var cell51 = document.getElementById('5-1"');
-var cell52 = document.getElementById('5-2"');
-var cell53 = document.getElementById('5-3"');
-var cell54 = document.getElementById('5-4"');
-var cell55 = document.getElementById('5-5"');
-var cell56 = document.getElementById('5-6"');
+var cell50 = document.getElementById('5-0');
+var cell51 = document.getElementById('5-1');
+var cell52 = document.getElementById('5-2');
+var cell53 = document.getElementById('5-3'); //il polpo. Il pOOOlpo. IIIIIL POOOOOOOOOOOOOOOOOOOLPO non si è fermato maaai unmomeeeeento!
+
+var cell54 = document.getElementById('5-4');
+var cell55 = document.getElementById('5-5');
+var cell56 = document.getElementById('5-6');
 
 
 //uncle pear
 
 //variabili per il gioco 
 var gameOver = false;
+var partitaPari = false;
 var sfida= ' ';
 
 
@@ -82,10 +83,11 @@ var posizione_x = '';
 var posizione_y='';
 var posx ='';
 var posy='';
+var nossa = 21;
 
 
 //METTI BOARD VISIBLE APPENA CERC AMICI P 
-var messageContainer = document.getElementById('message-container')
+/* var messageContainer = document.getElementById('message-container')
 var messageForm = document.getElementById('send-container')
 var messageInput = document.getElementById('message-input')
 
@@ -120,7 +122,7 @@ function appendMessage(message) {
   messageContainer.append(messageElement)
 }
 
-
+ */
 
 
 socket.on('connect',()=> {
@@ -134,12 +136,12 @@ socket.emit('custom-event', 10, 'Hi')
 
 
 
-function setGameMultiPl()
+/* function setGameMultiPl()
 {
     //board = [];
    // currColumns=[5, 5, 5 ,5, 5, 5, 5]; //faccio sempre partire dall basso, così è come se simulassi la forza di gravità
    
-   document.getElementById("board").style.visibility='visible'
+   
 
 
    function addEventCell(cell) {
@@ -158,9 +160,9 @@ function setGameMultiPl()
         }
     });
 }
-
+ */
 //aggiungo evento alle celle del campo
-addEventCell(cell0);
+/* addEventCell(cell0);
 addEventCell(cell1);
 addEventCell(cell2);
 addEventCell(cell3);
@@ -168,7 +170,7 @@ addEventCell(cell4);
 addEventCell(cell5);
 addEventCell(cell6);
 addEventCell(cell7);
-addEventCell(cell8);
+addEventCell(cell8); */
 
 
    /*  for(let r = 0; r< rows; r++)
@@ -198,22 +200,59 @@ addEventCell(cell8);
     alert("pippozzo1")
     //setPieceMultiPl(posx,posy)
     ) */
-}
 
-function setPieceMultiPl(posx,posy)
+
+    socket.on('mossa',function(data)
+    {
+      alert(data.idCella)
+     
+      //setPieceMultiPl(data.posx, data.posy)
+    })
+
+
+
+    //aggiungo l'evento alla cella del campo
+
+
+//aggiungo evento alle celle del campo
+
+
+
+/* function setPieceMultiPl(pos)
 {
 
   if (gameOver)
     {
         return;
     }
-    //let coords =this.id.split("-") // "0-0" ==> ["0","0"]
-    posx= parseInt(posx);
-    posy= parseInt(posy);
+  
+    let coords =pos.split(",") // "0-0" ==> ["0","0"]
+    let posx = parseInt(coords[0]);
+    let posy = parseInt(coords[1]);
+    
+    alert('pos'+pos)
     alert('posx'+posx)
+    alert('posy'+posy)
+
+    socket.emit("mossa", 
+    data={
+      
+      posizionex:posx,
+      posizioney:posy
+  
+    });
+
+    socket.on('mossa1',function(data)
+    {
+      alert('alex')
+     
+      //setPieceMultiPl(data.posx, data.posy)
+    }) */
+  
+    
     
 
-    posx= currColumns[posy];
+    /* posx= currColumns[posy];
     if (posx< 0)
     {
         return;
@@ -237,9 +276,9 @@ function setPieceMultiPl(posx,posy)
     }
     posx-= 1; // update l' altezza per le colonne
     currColumns[posy] = posx; //update the array of 
-    checkWinner();   
+    checkWinner();    */
 
-}
+
 
 
 function setGame()
@@ -260,7 +299,7 @@ function setGame()
             tile.id= r.toString() + "-" + c.toString();
             tile.classList.add('tile');
             tile.addEventListener('click',setPiece)
-            document.getElementById('board').append(tile);
+            document.getElementById('alex').append(tile);
             
         }
         board.push(row);
@@ -273,6 +312,8 @@ function setPiece()
     {
         return;
     }
+
+    
     let coords =this.id.split("-") // "0-0" ==> ["0","0"]
     let r = parseInt(coords[0]);
     let c = parseInt(coords[1]);
@@ -292,12 +333,18 @@ function setPiece()
     {
         tile.classList.add("red-pice");
         currPlayer = playerYellow;
+        
 
     }
     else
     {
         tile.classList.add("yellow-pice");
         currPlayer = playerRed;
+        nossa-=1;
+        console.log(nossa
+          )
+        //alert(num_mossa)
+        
 
     }
     r-= 1; // update l' altezza per le colonne
@@ -387,16 +434,23 @@ function checkWinner()
 function setWinner(r,c)
 {
 let winnwer = document.getElementById("winner");
+console.log(nossa)
+if (nossa==1)
+{
+  partitaPari=true;
+ alert('partita pari')
 
+}
 
 if (board[r][c]==playerRed)
 {
   winnwer.innerText = "HA VINTO IL ROSSO!"
 }
-else
+if (board[r][c]==playerYellow)
 {
   winnwer.innerText = "HA VINTO IL GIALLO"
 }
+
 
 gameOver= true;
 }
@@ -405,6 +459,50 @@ gameOver= true;
 $(document).ready(function()
 {
 
+
+  function addEventCell(tile) 
+{
+  
+
+  tile.addEventListener('click', function (event) {
+     
+              
+              socket.emit('mossa', {
+                  
+                  idCella: tile,
+                  //simbolo: symbol,
+              });
+              addEventCell(cell00);
+              addEventCell(cell01);
+              addEventCell(cell02);
+              addEventCell(cell03);
+              addEventCell(cell04);
+              addEventCell(cell05);
+              addEventCell(cell06);
+              
+              addEventCell(cell10);
+              addEventCell(cell11);
+              addEventCell(cell12);
+              addEventCell(cell13);
+              addEventCell(cell14);
+              addEventCell(cell15);
+              addEventCell(cell16);
+              
+              
+              addEventCell(cell50);
+              addEventCell(cell51);
+              addEventCell(cell52);
+              addEventCell(cell53);
+              addEventCell(cell54);
+              addEventCell(cell55);
+              addEventCell(cell56);
+
+
+
+              
+          
+  });
+}
    $("#board").click(function()
 {
   
@@ -425,30 +523,6 @@ $(document).ready(function()
 }) */
 
   
-    
-  socket.emit("mossa", 
-  {
-    
-    posx:posizionex,
-    posy:posizioney
-
-  });
-  
- 
-
-
-  socket.on('mossa',function(data)
-  {
-    
-   
-    //setPieceMultiPl(data.posx, data.posy)
-  })
-
-
-  
-
-
-
   $("#buttonSearch").click(function()
 {
     
@@ -471,7 +545,7 @@ socket.emit("searchUser",
    
      if(yourName==data.username)
     {
-      setGameMultiPl()
+      document.getElementById("board").style.visibility='visible'
       //da scommenentare per herock
        var gio = confirm('sfida ricevuta')
 
@@ -515,8 +589,8 @@ socket.emit("signup",
 
 $("#idgiocopc").click(function()
 {
- setGame() 
-  document.getElementById("board").style.visibility='visible'
+  setGame() 
+  document.getElementById("alex").style.visibility='visible'
   document.getElementById("idgiocopc").style.visibility='hidden'
 
 });

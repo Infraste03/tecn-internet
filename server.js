@@ -5,6 +5,7 @@ app = express()
 socketIo = require("socket.io");
 var path = require('path');
 var mysql = require('mysql');
+const { posix } = require('path');
 const server = http.Server(app).listen(process.env.PORT || 3000);
 const io = socketIo(server);
 
@@ -71,11 +72,18 @@ function functionServer()
   
     socket.on('mossa',function(data)
   {
+    console.log(data)
+    
+    /* var poizx=data.posizionex;
+    var poizy=data.posizioney;
+    console.log( 'posizione x' +poizx + poizy) */
+    ///console.log(data.posizioney)
+    
     
     /* data.posx
     data.posy */
     //users[socket.id]= data.posizionex,data.posizioney
-    socket.broadcast.emit('mossa',data.posx,data.posy)
+    socket.broadcast.emit('mossa',data)
   })
     
  

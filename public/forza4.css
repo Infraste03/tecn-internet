@@ -20,6 +20,19 @@ body
     flex-wrap: wrap;
 }
 
+#alex
+{
+    height:540px;
+    width: 630px; 
+
+    background-color: blue;
+    border: 10px solid navy;
+
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .tile
 {
     height: 70px;
