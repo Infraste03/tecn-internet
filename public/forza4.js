@@ -1,6 +1,6 @@
 src="/socket.io/socket.io.js"
-var socket=io.connect('http://localhost:3000/'); //IN LOCALE
-//var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
+//var socket=io.connect('http://localhost:3000/'); //IN LOCALE
+var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 
 //variabili per giocatori
@@ -9,6 +9,8 @@ var playerYellow= "Y"
 var currPlayer= playerRed;
 var yourName;
 var multiPl = 0;
+turno=true;
+
 
 
 var cell00 = document.getElementById('0-0');
@@ -449,47 +451,90 @@ if (board[r][c]==playerYellow)
 gameOver= true;
 }
 
-function pippo(pos){
-
-
-  alert("pos"+pos);
-  
+function pippo(pos)
+{
+  if (gameOver)
+  {
+      return;
+  }
+  //alert("pos"+pos);
+  if (turno==true)
+  {
+    turno=false;
+    //alert(currPlayer)
     socket.emit("mossa", 
   {
-
-     posiz:pos
+    posiz:pos,
+    colore:currPlayer
 
   });
 
-  
 
 }
 
+}
+
+
 socket.on('mossa1',function(data)
-  {
+  {  
+    
+    //
 
-  alert("data.p"+data.p)
-   
-
-  
-    if (currPlayer == playerRed)
+    
+   // alert(data.col)
+    if(data.col=="R")
     {
+      
+      document.getElementById(data.p).style.backgroundColor = "red"
+     
+       turno=true;
+       currPlayer=playerYellow
+      
+      
+        
+    }
+    else
+    {
+      turno=true;
+      document.getElementById(data.p).style.backgroundColor = "yellow"
+      
+        
+        currPlayer=playerRed
+ 
+    }
+
+    
+    
+    
+  /*   if (currPlayer == playerRed)
+    {
+      
         //tile.classList.add("red-pice");
-        document.getElementById(data.p).style.backgroundColor = "red";
+        document.getElementById(data.p).style.backgroundColor = "red"
+        
         currPlayer = playerYellow;
+        
+        
+        
         
 
     }
     else
     {
+      
         //tile.classList.add("yellow-pice");
         document.getElementById(data.p).style.backgroundColor = "yellow";
-        currPlayer = playerRed
-       
         
-
-    }
-  
+        currPlayer = playerRed
+        
+        
+        
+        
+        
+    
+    } */
+    
+ 
     //checkWinner();  
 
   });

@@ -78,7 +78,8 @@ function functionServer()
       io.emit('mossa1',
       {
         
-        p:data.posiz
+        p:data.posiz,
+        col:data.colore
         
   
       }
