@@ -1,11 +1,11 @@
 src="/socket.io/socket.io.js"
-//var socket=io.connect('http://localhost:3000/'); //IN LOCALE
-var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
+var socket=io.connect('http://localhost:3000/'); //IN LOCALE
+//var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 
 //variabili per giocatori
-var playerRed = "R"
-var playerYellow= "Y"
+var playerRed = "Red"
+var playerYellow= "Yellow"
 var currPlayer= playerRed;
 var yourName;
 var multiPl = 0;
@@ -131,9 +131,6 @@ socket.on('connect',()=> {
    console.log('Benvenuti nel gioco!')
 
 } )
-
-
-socket.emit('custom-event', 10, 'Hi')
 
 
 
@@ -470,41 +467,59 @@ function pippo(pos)
   });
 
 
+
 }
+
 
 }
 
 
 socket.on('mossa1',function(data)
   {  
+   
+    let pluto =data.p.split("-") // "0-0" ==> ["0","0"]
+    let r = parseInt(pluto[0]);
+    let c = parseInt(pluto[1]);
     
-    //
+   // alert(r)
+   // alert(c)
 
+
+    //
     
+
+   /*  if (data.col == "Red")
+    {
+      turno=true;
+      currPlayer=playerYellow
+    }
+     */
    // alert(data.col)
-    if(data.col=="R")
+    if(data.col=="Red")
     {
       
-      document.getElementById(data.p).style.backgroundColor = "red"
-     
-       turno=true;
-       currPlayer=playerYellow
       
+     document.getElementById(data.p).style.backgroundColor = data.col
+      
+     currPlayer=playerYellow
+     alert('ceck winner')
+     //checkWinner();
       
         
     }
-    else
+    else 
     {
       turno=true;
-      document.getElementById(data.p).style.backgroundColor = "yellow"
+      document.getElementById(data.p).style.backgroundColor = data.col
       
         
         currPlayer=playerRed
- 
+        alert('ceck winner')
+        
     }
-
+  
     
-    
+    checkWinner();
     
   /*   if (currPlayer == playerRed)
     {
