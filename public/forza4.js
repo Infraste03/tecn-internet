@@ -9,7 +9,7 @@ var playerYellow= "Yellow"
 var currPlayer= playerRed;
 var yourName;
 var multiPl = 0;
-turno=true;
+var turno= true;
 
 
 
@@ -68,12 +68,13 @@ var cell56 = document.getElementById('5-6');
 
 
 //uncle pear
-
+var actualPlayer = " ";
 //variabili per il gioco 
+var isF = true;
 var gameOver = false;
 var partitaPari = false;
 var sfida= ' ';
-
+var canTalk = true;
 
 //variabili per la strutturaa dell area di gioco
 var board;
@@ -450,26 +451,43 @@ gameOver= true;
 
 function pippo(pos)
 {
+  if(isF){
+    actualPlayer = currPlayer;
+    isF = false;
+  }
+  alert(actualPlayer);
   if (gameOver)
   {
       return;
   }
+  //let turno=true;
   //alert("pos"+pos);
   if (turno==true)
   {
-    turno=false;
+   
     //alert(currPlayer)
     socket.emit("mossa", 
   {
     posiz:pos,
-    colore:currPlayer
+    colore:actualPlayer
 
   });
-
-
-
 }
 
+
+
+
+/* if (turno==false)
+{
+ //turno=false;
+  //alert(currPlayer)
+  socket.emit("mossa8", 
+{
+  posiz:pos,
+  colore:currPlayer
+
+});
+} */
 
 }
 
@@ -484,9 +502,55 @@ socket.on('mossa1',function(data)
    // alert(r)
    // alert(c)
 
-
+    console.log("ricevuto colore " + data.col + " attuale " + actualPlayer);
     //
-    
+    document.getElementById(data.p).style.backgroundColor = data.col
+
+    if(actualPlayer!=data.col)
+      {
+        turno = true;
+      
+        if(data.col=="Red")
+        {
+          currPlayer=playerYellow
+        }
+        else{
+          currPlayer=playerRed;
+        }
+
+      }
+    else 
+      turno = false; 
+      
+    console.log("alla mossa  " + currPlayer + "\n actualPlayer " + actualPlayer);
+
+
+ 
+
+    /*
+    if(data.col=="Red")
+    {
+      //turno=true;
+      currPlayer=playerYellow
+      //turno=false
+      
+      //turno=true;
+    }
+    else
+    {
+     // turno=true;
+      //document.getElementById(data.p).style.backgroundColor = data.col
+      currPlayer=playerRed
+      //turno=true;
+      //
+    }
+
+    if(actualPlayer=!data.col)
+      turno = true;
+    else 
+      turno = false;  
+    */
+
 
    /*  if (data.col == "Red")
     {
@@ -495,14 +559,14 @@ socket.on('mossa1',function(data)
     }
      */
    // alert(data.col)
-    if(data.col=="Red")
+    /* if(data.col=="Red")
     {
-      
+      turno=true;
       
      document.getElementById(data.p).style.backgroundColor = data.col
       
      currPlayer=playerYellow
-     alert('ceck winner')
+     //alert('ceck winner')
      //checkWinner();
       
         
@@ -514,9 +578,9 @@ socket.on('mossa1',function(data)
       
         
         currPlayer=playerRed
-        alert('ceck winner')
+        //alert('ceck winner')
         
-    }
+    } */
   
     
     checkWinner();
@@ -532,7 +596,6 @@ socket.on('mossa1',function(data)
         
         
         
-
     }
     else
     {

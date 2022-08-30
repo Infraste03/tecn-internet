@@ -8,7 +8,7 @@ var mysql = require('mysql');
 const { posix } = require('path');
 const server = http.Server(app).listen(process.env.PORT || 3000);
 const io = socketIo(server);
-
+var activeP = "" ;
 
 const utenti = {}
 var users =[]; //lista giocatore
@@ -69,12 +69,12 @@ function functionServer()
  
   io.on("connection", function(socket)
   {
-  
+
+    
     socket.on('mossa',function(data)
     {
+      console.log("line 76- " + data.colore);
       
-      
-  
       io.emit('mossa1',
       {
         
@@ -86,8 +86,11 @@ function functionServer()
       
       
       )
-      console.log("ciao")
+      //console.log("ciao")
     })
+    
+
+    
     
  
    /*  socket.on('mossa',() => {
