@@ -1,6 +1,6 @@
 src="/socket.io/socket.io.js"
-var socket=io.connect('http://localhost:3000/'); //IN LOCALE
-//var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
+//var socket=io.connect('http://localhost:3000/'); //IN LOCALE
+var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 
 //variabili per giocatori
@@ -349,6 +349,8 @@ function setPiece()
 
 function checkWinner()
 {
+  //alert("prpva test")
+  alert("board del checkwinner"+ board)
   
    //orizzontale 
   for (let r = 0; r < rows; r++)
@@ -356,14 +358,14 @@ function checkWinner()
     for (let c = 0; c < columns - 3; c++)
     {
       
-        if (board[r][c] != ' ')
+        if (board[r][c] !=' ')
         {
 
-        if (board[r][c]==board[r][c+1]&& board[r][c+1]==board[r][c+2] && board[r][c+2]==board[r][c+3] )
-
-        {
-        setWinner(r,c);
-          return;
+          if (board[r][c]==board[r][c+1]&& board[r][c+1]==board[r][c+2] && board[r][c+2]==board[r][c+3] )
+          {
+            setWinner(r,c);
+            alert("orizzontale")
+            return;
         }
         
         
@@ -383,6 +385,7 @@ function checkWinner()
         if (board[r][c]==board[r+1][c]&&board[r+1][c]==board[r+2][c]&&board[r+2][c]==board[r+3][c])
         {
             setWinner(r,c);
+            alert("verticale")
             return;
         }
       }
@@ -400,6 +403,7 @@ function checkWinner()
         if (board[r][c]== board[r+1][c+1] && board[r+1][c+1]== board[r+2][c+2] && board[r+2][c+2]== board[r+3][c+3])
         {
           setWinner(r,c);
+          alert("diago min")
           return;
         }
       }
@@ -417,6 +421,7 @@ function checkWinner()
         if (board[r][c]== board[r-1][c+1] && board[r-1][c+1]== board[r-2][c+2] && board[r-2][c+2]== board[r-3][c+3])
         {
           setWinner(r,c);
+          alert("diago max")
           return;
         }
       }
@@ -427,6 +432,7 @@ function checkWinner()
 
 function setWinner(r,c)
 {
+  //alert("vincitore")
 let winnwer = document.getElementById("winner");
 console.log(nossa)
 if (nossa==1)
@@ -438,15 +444,16 @@ if (nossa==1)
 
 if (board[r][c]==playerRed)
 {
-  winnwer.innerText = "HA VINTO IL ROSSO!"
+  //winnwer.innerText = "HA VINTO IL ROSSO!"
+  alert("VINCITORE DEL ROSSO")
 }
 if (board[r][c]==playerYellow)
 {
-  winnwer.innerText = "HA VINTO IL GIALLO"
+  alert("VINCITORE GIALLO")
 }
 
 
-gameOver= true;
+  gameOver= true;
 }
 
 function pippo(pos)
@@ -455,17 +462,13 @@ function pippo(pos)
     actualPlayer = currPlayer;
     isF = false;
   }
-  alert(actualPlayer);
-  if (gameOver)
-  {
-      return;
-  }
+ // alert(actualPlayer);
+  
   //let turno=true;
   //alert("pos"+pos);
   if (turno==true)
   {
-   
-    //alert(currPlayer)
+    
     socket.emit("mossa", 
   {
     posiz:pos,
@@ -475,145 +478,91 @@ function pippo(pos)
 }
 
 
-
-
-/* if (turno==false)
-{
- //turno=false;
-  //alert(currPlayer)
-  socket.emit("mossa8", 
-{
-  posiz:pos,
-  colore:currPlayer
-
-});
-} */
-
 }
 
 
 socket.on('mossa1',function(data)
   {  
-   
-    let pluto =data.p.split("-") // "0-0" ==> ["0","0"]
+    board = [];
+    //alert("board = "+ board)
+    //currColumns=[5, 5, 5 ,5, 5, 5, 5];
+    //alert(currColumns)
+    let pluto = data.p.split("-") // "0-0" ==> ["0","0"]
     let r = parseInt(pluto[0]);
     let c = parseInt(pluto[1]);
-    
-   // alert(r)
-   // alert(c)
 
-    console.log("ricevuto colore " + data.col + " attuale " + actualPlayer);
-    //
-    document.getElementById(data.p).style.backgroundColor = data.col
+   
 
-    if(actualPlayer!=data.col)
-      {
-        turno = true;
-      
-        if(data.col=="Red")
-        {
-          currPlayer=playerYellow
-        }
-        else{
-          currPlayer=playerRed;
-        }
-
-      }
-    else 
-      turno = false; 
-      
-    console.log("alla mossa  " + currPlayer + "\n actualPlayer " + actualPlayer);
-
-
- 
-
-    /*
-    if(data.col=="Red")
-    {
-      //turno=true;
-      currPlayer=playerYellow
-      //turno=false
-      
-      //turno=true;
-    }
-    else
-    {
-     // turno=true;
-      //document.getElementById(data.p).style.backgroundColor = data.col
-      currPlayer=playerRed
-      //turno=true;
-      //
-    }
-
-    if(actualPlayer=!data.col)
-      turno = true;
-    else 
-      turno = false;  
-    */
-
-
-   /*  if (data.col == "Red")
-    {
-      turno=true;
-      currPlayer=playerYellow
-    }
-     */
-   // alert(data.col)
-    /* if(data.col=="Red")
-    {
-      turno=true;
-      
-     document.getElementById(data.p).style.backgroundColor = data.col
-      
-     currPlayer=playerYellow
-     //alert('ceck winner')
-     //checkWinner();
-      
-        
-    }
-    else 
-    {
-      turno=true;
-      document.getElementById(data.p).style.backgroundColor = data.col
-      
-        
-        currPlayer=playerRed
-        //alert('ceck winner')
-        
-    } */
   
-    
-    checkWinner();
-    
-  /*   if (currPlayer == playerRed)
+
+    for(let r = 0; r< rows; r++)
     {
-      
-        //tile.classList.add("red-pice");
-        document.getElementById(data.p).style.backgroundColor = "red"
-        
-        currPlayer = playerYellow;
-        
-        
-        
-        
+        let row= [];
+        for (let c= 0; c < columns; c++)
+        {
+          row.push(' ');
+
+  
+
+        }
+        board.push(row);
+       
+        console.log(board [r][c] + "board rc")
+
     }
-    else
-    {
-      
-        //tile.classList.add("yellow-pice");
-        document.getElementById(data.p).style.backgroundColor = "yellow";
-        
-        currPlayer = playerRed
-        
-        
-        
-        
-        
     
-    } */
     
+  console.log("ricevuto colore " + data.col + " attuale " + actualPlayer);
+  //
+  document.getElementById(data.p).style.backgroundColor = data.col
  
-    //checkWinner();  
+  
+
+
+  if(actualPlayer!=data.col)
+    {
+      board [r][c] = data.col;
+      turno = true;
+    
+      if(data.col=="Red")
+      {
+       // alert("ti prego vai")
+       //board [r][c] = data.col;
+        
+        currPlayer=playerYellow
+       // alert(board + "ciccogamer89") //pomo
+        //checkWinner();
+        
+          //board.push("ciaoooooooo")
+         // checkWinner();  
+        
+       
+      }
+
+      else
+      {
+       // board [r][c] = data.col;
+        //board.push(data.col)
+        currPlayer=playerRed;
+        //checkWinner();
+        //board.push("Yellow")
+        //checkWinner();  
+      }
+
+    }
+
+  else 
+  {
+    turno = false; 
+  }
+  
+   
+
+  
+  console.log("alla mossa  " + currPlayer + "\n actualPlayer " + actualPlayer);
+  //r-= 1; // update l' altezza per le colonne
+  //currColumns[c] = r; //update the array of 
+  checkWinner();
 
   });
 

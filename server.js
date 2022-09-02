@@ -74,12 +74,14 @@ function functionServer()
     socket.on('mossa',function(data)
     {
       console.log("line 76- " + data.colore);
+      //data.logisti.push(colore)
       
       io.emit('mossa1',
       {
         
         p:data.posiz,
-        col:data.colore
+        col:data.colore,
+       // sti:data.logisti
         
   
       }
