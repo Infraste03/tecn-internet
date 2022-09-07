@@ -1,5 +1,6 @@
 src="/socket.io/socket.io.js"
 //var socket=io.connect('http://localhost:3000/'); //IN LOCALE
+
 var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 
@@ -77,7 +78,7 @@ var sfida= ' ';
 var canTalk = true;
 
 //variabili per la strutturaa dell area di gioco
-var board;
+var board=[];
 var currColumns;
 var rows = 6;
 var columns = 7;
@@ -205,7 +206,7 @@ addEventCell(cell8); */
 
 
 
-    //aggiungo l'evento alla cella del campo
+    //aggiungo l'evento alla cella del campogameOver
 
 
 //aggiungo evento alle celle del campo
@@ -446,10 +447,20 @@ if (board[r][c]==playerRed)
 {
   //winnwer.innerText = "HA VINTO IL ROSSO!"
   alert("VINCITORE DEL ROSSO")
+  socket.emit("esitorosso", 
+  {
+    esito:"vincitore rosso"
+  }
+  )
 }
 if (board[r][c]==playerYellow)
 {
   alert("VINCITORE GIALLO")
+  socket.emit("esitoye", 
+  {
+    esitoy:"vincitore ye"
+  }
+  )
 }
 
 
@@ -458,9 +469,25 @@ if (board[r][c]==playerYellow)
 
 function pippo(pos)
 {
+  if (gameOver)
+    {
+        return;
+    }
   if(isF){
     actualPlayer = currPlayer;
     isF = false;
+    for(let r = 0; r< rows; r++)
+    {
+        let row= [];
+        for (let c= 0; c < columns; c++)
+        {
+          row.push(' ');
+        }
+        board.push(row);
+       
+        //console.log(board [r][c] + "board rc")
+       
+    }
   }
  // alert(actualPlayer);
   
@@ -469,6 +496,11 @@ function pippo(pos)
   if (turno==true)
   {
     
+    let pluto = pos.split("-") // "0-0" ==> ["0","0"]
+    let r = parseInt(pluto[0]);
+    let c = parseInt(pluto[1]);
+    board[r][c]=actualPlayer;
+   
     socket.emit("mossa", 
   {
     posiz:pos,
@@ -480,10 +512,29 @@ function pippo(pos)
 
 }
 
+socket.on("esitored2", function(data)
+{
+  if(data.es=="vincitore rosso" & currPlayer=="Yellow")
+  {
+    alert("SEI UN PERDENTE")
+    gameOver=true;
+  }
+}
+)
+
+socket.on("esitoye2", function(data)
+{
+  if(data.es=="vincitore ye" & currPlayer=="Red")
+  {
+    alert("SEI UN PERDENTE")
+    gameOver=true;
+  }
+}
+)
 
 socket.on('mossa1',function(data)
   {  
-    board = [];
+    //
     //alert("board = "+ board)
     //currColumns=[5, 5, 5 ,5, 5, 5, 5];
     //alert(currColumns)
@@ -491,26 +542,7 @@ socket.on('mossa1',function(data)
     let r = parseInt(pluto[0]);
     let c = parseInt(pluto[1]);
 
-   
 
-  
-
-    for(let r = 0; r< rows; r++)
-    {
-        let row= [];
-        for (let c= 0; c < columns; c++)
-        {
-          row.push(' ');
-
-  
-
-        }
-        board.push(row);
-       
-        console.log(board [r][c] + "board rc")
-
-    }
-    
     
   console.log("ricevuto colore " + data.col + " attuale " + actualPlayer);
   //
@@ -521,7 +553,7 @@ socket.on('mossa1',function(data)
 
   if(actualPlayer!=data.col)
     {
-      board [r][c] = data.col;
+      
       turno = true;
     
       if(data.col=="Red")
@@ -548,7 +580,7 @@ socket.on('mossa1',function(data)
         //board.push("Yellow")
         //checkWinner();  
       }
-
+      board [r][c] = data.col;
     }
 
   else 
@@ -565,6 +597,8 @@ socket.on('mossa1',function(data)
   checkWinner();
 
   });
+
+  
 
 
 $(document).ready(function()

@@ -80,8 +80,7 @@ function functionServer()
       {
         
         p:data.posiz,
-        col:data.colore,
-       // sti:data.logisti
+        col:data.colore
         
   
       }
@@ -91,7 +90,29 @@ function functionServer()
       //console.log("ciao")
     })
     
+  socket.on("esitorosso",function(data){
+    console.log("nida")
+  
+    io.emit("esitored2",
+    {
+      es:data.esito
+    }
+    )
+ 
+  
+  })
 
+  socket.on("esitoye",function(data){
+    console.log("nida2")
+  
+    io.emit("esitoye2",
+    {
+      esy:data.esitoy
+    }
+    )
+ 
+  
+  })
     
     
  
