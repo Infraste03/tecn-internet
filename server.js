@@ -20,7 +20,6 @@ pos_y=''
 console.log("Server - listening at port 3000 ");
   
   app.use(express.static(__dirname + "/../node_modules/"));
-  //app.use(express.static(__dirname + 'forza4.css'));
   app.use(express.static(path.join(__dirname, 'public')));
   app.get("/", (req, res) => 
   {
@@ -28,7 +27,7 @@ console.log("Server - listening at port 3000 ");
     stream.pipe(res);
   });
 
-  /*  */
+
 
 
 var con = mysql.createConnection({
@@ -74,7 +73,7 @@ function functionServer()
     socket.on('mossa',function(data)
     {
       console.log("line 76- " + data.colore);
-      //data.logisti.push(colore)
+      
       
       io.emit('mossa1',
       {
@@ -87,11 +86,11 @@ function functionServer()
       
       
       )
-      //console.log("ciao")
+      
     })
     
   socket.on("esitorosso",function(data){
-    console.log("nida")
+    
   
     io.emit("esitored2",
     {
@@ -113,34 +112,6 @@ function functionServer()
  
   
   })
-    
-    
- 
-   /*  socket.on('mossa',() => {
-      socket.broadcast.emit('user-mossa', utenti[socket.id])
-      
-    }) */
-     /*  
-      for (let l=0; l<Listsocket;l++ )
-      {
-        if(Listsocket[l] =! socket.id)
-        {
-        io.to(Listsocket).emit('mossa',posizione_x,posizione_y,socket.id)
-    }
-    } */
-
-    
-/* 
-    for (let u=0; u<users; u++)
-    if (users[u]==users.id)
-    {
-    socket.emit('mossa')
-    {
-      pos_x
-      pos_y 
-    }
-  } */
-  
 
 
     socket.on('searchUser', function(data)
@@ -168,9 +139,7 @@ function functionServer()
             
           });
 
-        /*   username =data.searchUsername
-          socket.connect[username].emit('searchUser', data.searchUsername) */
-
+     
           console.log(data.searchUsername)
 
         }

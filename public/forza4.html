@@ -90,13 +90,16 @@
           <div id="5-4" onclick="pippo('5-4')" class="tile"></div>
           <div id="5-5" onclick="pippo('5-5')" class="tile"></div>
           <div id="5-6" onclick="pippo('5-6')" class="tile"></div>
-        </div>    
+        </div> 
+        
+        
+        
+      <!--html for chat -->
 
-
-      <div id="message-container"></div>
-      <form id="send-container">
-        <input type="text" id="message-input">
-        <button type="submit" id="send-button">Send</button>
+      <div id="message-container"style="visibility:hidden ;"></div>
+      <form id="send-container"style="visibility:hidden ;">
+        <input type="text" id="message-input"style="visibility:hidden ;">
+        <button type="submit" id="send-button"style="visibility:hidden ;">Send</button>
       </form>
     </body>
 </html>
@@ -132,10 +135,10 @@
 
 <div class="giocopc" style="visibility:hidden ;">
   
-  <button id="idgiocopc">GIOCA DA UN UNICO DISPOSITVO</button>
+  <button id="idgiocopc" style="visibility:hidden ;">GIOCA DA UN UNICO DISPOSITVO</button>
 </div>
 
-<div class="giocopc" style="display: none;">
+<div class="giocopc" style="display: none;" style="visibility:hidden ;">
   text
 </div>
 
@@ -146,17 +149,17 @@
   <button id="idgiocomulti"style="visibility:hidden ;">GIOCA MULTIPLAYER! WHAT DO YOU ASPECT??</button>
 </div>
 
-<div class="giocomulti" style="display: none;">
+<div class="giocomulti" id="schio" style="display: none;" style="visibility:hidden ;">
   text
 </div>
 
 <!--html for cercare giocatore-->
-<div class="search" id ="divsearch">
-  <input type="text" id="idsearch" placeholder="Username dell' avversario" /><br>
+<div class="search" id ="divsearch" style="visibility:hidden ;">
+  <input type="text" id="idsearch" style="visibility:hidden ;" placeholder="Username dell' avversario" /><br>
   <button id="buttonSearch" style="visibility:hidden ;">CERCO AMICI </button>
 </div>
 
-<div class="search" style="display: none;" style="visibility:hidden ;">
+<div class="search" id="ziop" style="display: none;" style="visibility:hidden ;">
   text
 </div>
 

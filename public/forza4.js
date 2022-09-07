@@ -1,7 +1,7 @@
 src="/socket.io/socket.io.js"
-//var socket=io.connect('http://localhost:3000/'); //IN LOCALE
+var socket=io.connect('http://localhost:3000/'); //IN LOCALE
 
-var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
+//var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 
 //variabili per giocatori
@@ -62,13 +62,13 @@ var cell46 = document.getElementById('4-6');
 var cell50 = document.getElementById('5-0');
 var cell51 = document.getElementById('5-1');
 var cell52 = document.getElementById('5-2');
-var cell53 = document.getElementById('5-3'); //il polpo. Il pOOOlpo. IIIIIL POOOOOOOOOOOOOOOOOOOLPO non si è fermato maaai unmo
+var cell53 = document.getElementById('5-3'); 
 var cell54 = document.getElementById('5-4');
 var cell55 = document.getElementById('5-5');
 var cell56 = document.getElementById('5-6');
 
 
-//uncle pear
+
 var actualPlayer = " ";
 //variabili per il gioco 
 var isF = true;
@@ -88,13 +88,11 @@ var posx ='';
 var posy='';
 var nossa = 21;
 
-
-//METTI BOARD VISIBLE APPENA CERC AMICI P 
-/* var messageContainer = document.getElementById('message-container')
+var messageContainer = document.getElementById('message-container')
 var messageForm = document.getElementById('send-container')
 var messageInput = document.getElementById('message-input')
 
-var nickname = prompt('What is your name?')
+var nickname="Avversario :)"
 appendMessage('You joined')
 socket.emit('new-user', nickname)
 
@@ -125,7 +123,7 @@ function appendMessage(message) {
   messageContainer.append(messageElement)
 }
 
- */
+
 
 
 socket.on('connect',()=> {
@@ -133,146 +131,6 @@ socket.on('connect',()=> {
    console.log('Benvenuti nel gioco!')
 
 } )
-
-
-
-/* function setGameMultiPl()
-{
-    //board = [];
-   // currColumns=[5, 5, 5 ,5, 5, 5, 5]; //faccio sempre partire dall basso, così è come se simulassi la forza di gravità
-   
-   
-
-
-   function addEventCell(cell) {
-    cell.addEventListener('click', function (event) {
-        if (cell.textContent == "") {
-            if (round == true && checkResult == "") {
-                round = false;
-                socket.emit('mossa', {
-                    roomName: roomName,
-                    idCella: cell.id,
-                    simbolo: symbol,
-                });
-            } else {
-                alert("Attendi il tuo round per poter fare la tua mossa.");
-            }
-        }
-    });
-}
- */
-//aggiungo evento alle celle del campo
-/* addEventCell(cell0);
-addEventCell(cell1);
-addEventCell(cell2);
-addEventCell(cell3);
-addEventCell(cell4);
-addEventCell(cell5);
-addEventCell(cell6);
-addEventCell(cell7);
-addEventCell(cell8); */
-
-
-   /*  for(let r = 0; r< rows; r++)
-    {
-        let row= [];
-        for (let c= 0; c < columns; c++)
-        {
-
-          let tile = document.createElement('div');
-            //js
-            row.push(' ');
-
-            //html
-            
-            
-            tile.id= r.toString() + "-" + c.toString();
-            
-            tile.classList.add('tile');
-            
-            document.getElementById('board').append(tile);
-            
-        }
-        board.push(row);
-    } */
-
-    /* tile.addEventListener('click',
-    alert("pippozzo1")
-    //setPieceMultiPl(posx,posy)
-    ) */
-
-
-   
-
-
-
-    //aggiungo l'evento alla cella del campogameOver
-
-
-//aggiungo evento alle celle del campo
-
-
-
-/* function setPieceMultiPl(pos)
-{
-
-  if (gameOver)
-    {
-        return;
-    }
-  
-    let coords =pos.split(",") // "0-0" ==> ["0","0"]
-    let posx = parseInt(coords[0]);
-    let posy = parseInt(coords[1]);
-    
-    alert('pos'+pos)
-    alert('posx'+posx)
-    alert('posy'+posy)
-
-    socket.emit("mossa", 
-    data={
-      
-      posizionex:posx,
-      posizioney:posy
-  
-    });
-
-    socket.on('mossa1',function(data)
-    {
-      alert('alex')
-     
-      //setPieceMultiPl(data.posx, data.posy)
-    }) */
-  
-    
-    
-
-    /* posx= currColumns[posy];
-    if (posx< 0)
-    {
-        return;
-    }
-
-    board [posx][posy] = currPlayer;
-    
-    
-    let tile = document.getElementById(posx.toString()+ "-" + posy.toString());
-    if (currPlayer == playerRed)
-    {
-        tile.classList.add("red-pice");
-        currPlayer = playerYellow;
-
-    }
-    else
-    {
-        tile.classList.add("yellow-pice");
-        currPlayer = playerRed;
-
-    }
-    posx-= 1; // update l' altezza per le colonne
-    currColumns[posy] = posx; //update the array of 
-    checkWinner();    */
-
 
 
 
@@ -338,7 +196,7 @@ function setPiece()
         nossa-=1;
         console.log(nossa
           )
-        //alert(num_mossa)
+        
         
 
     }
@@ -350,8 +208,7 @@ function setPiece()
 
 function checkWinner()
 {
-  //alert("prpva test")
-  alert("board del checkwinner"+ board)
+
   
    //orizzontale 
   for (let r = 0; r < rows; r++)
@@ -365,7 +222,7 @@ function checkWinner()
           if (board[r][c]==board[r][c+1]&& board[r][c+1]==board[r][c+2] && board[r][c+2]==board[r][c+3] )
           {
             setWinner(r,c);
-            alert("orizzontale")
+            
             return;
         }
         
@@ -386,7 +243,7 @@ function checkWinner()
         if (board[r][c]==board[r+1][c]&&board[r+1][c]==board[r+2][c]&&board[r+2][c]==board[r+3][c])
         {
             setWinner(r,c);
-            alert("verticale")
+            
             return;
         }
       }
@@ -404,7 +261,7 @@ function checkWinner()
         if (board[r][c]== board[r+1][c+1] && board[r+1][c+1]== board[r+2][c+2] && board[r+2][c+2]== board[r+3][c+3])
         {
           setWinner(r,c);
-          alert("diago min")
+          
           return;
         }
       }
@@ -422,7 +279,7 @@ function checkWinner()
         if (board[r][c]== board[r-1][c+1] && board[r-1][c+1]== board[r-2][c+2] && board[r-2][c+2]== board[r-3][c+3])
         {
           setWinner(r,c);
-          alert("diago max")
+          
           return;
         }
       }
@@ -433,7 +290,7 @@ function checkWinner()
 
 function setWinner(r,c)
 {
-  //alert("vincitore")
+
 let winnwer = document.getElementById("winner");
 console.log(nossa)
 if (nossa==1)
@@ -445,7 +302,7 @@ if (nossa==1)
 
 if (board[r][c]==playerRed)
 {
-  //winnwer.innerText = "HA VINTO IL ROSSO!"
+  
   alert("VINCITORE DEL ROSSO")
   socket.emit("esitorosso", 
   {
@@ -485,14 +342,9 @@ function pippo(pos)
         }
         board.push(row);
        
-        //console.log(board [r][c] + "board rc")
-       
     }
   }
- // alert(actualPlayer);
-  
-  //let turno=true;
-  //alert("pos"+pos);
+
   if (turno==true)
   {
     
@@ -516,7 +368,7 @@ socket.on("esitored2", function(data)
 {
   if(data.es=="vincitore rosso" & currPlayer=="Yellow")
   {
-    alert("SEI UN PERDENTE")
+    alert(" GIALLO HAI PERSO :(")
     gameOver=true;
   }
 }
@@ -526,7 +378,7 @@ socket.on("esitoye2", function(data)
 {
   if(data.es=="vincitore ye" & currPlayer=="Red")
   {
-    alert("SEI UN PERDENTE")
+    alert(" ROSSO HAI PERSO :(")
     gameOver=true;
   }
 }
@@ -558,27 +410,16 @@ socket.on('mossa1',function(data)
     
       if(data.col=="Red")
       {
-       // alert("ti prego vai")
-       //board [r][c] = data.col;
         
         currPlayer=playerYellow
-       // alert(board + "ciccogamer89") //pomo
-        //checkWinner();
-        
-          //board.push("ciaoooooooo")
-         // checkWinner();  
-        
-       
+
       }
 
       else
       {
-       // board [r][c] = data.col;
-        //board.push(data.col)
+       
         currPlayer=playerRed;
-        //checkWinner();
-        //board.push("Yellow")
-        //checkWinner();  
+        
       }
       board [r][c] = data.col;
     }
@@ -603,25 +444,13 @@ socket.on('mossa1',function(data)
 
 $(document).ready(function()
 {
-
- 
-
-/* socket.on('mossa',function(posizione_x,posizione_y,id)
-{
-  for (let l=0; l<Listsocket;l++ )
-  {
-    if(id==socket.id)
-    {
-      setPieceMultiPl(posizione_x,posizione_y);
-    }
-}
-
-}) */
-
   
   $("#buttonSearch").click(function()
+  
 {
-    
+  document.getElementById("buttonSearch").style.visibility='hidden'
+  document.getElementById("idsearch").style.visibility='hidden'
+
 socket.emit("searchUser", 
 {
 
@@ -641,16 +470,21 @@ socket.emit("searchUser",
    
      if(yourName==data.username)
     {
+      //var nickname = yourName
       document.getElementById("board").style.visibility='visible'
-      //da scommenentare per herock
+      document.getElementById("message-container").style.visibility='visible'
+      document.getElementById("send-container").style.visibility='visible'
+      document.getElementById("message-input").style.visibility='visible'
+      document.getElementById("send-button").style.visibility='visible'
+
+      
        var gio = confirm('sfida ricevuta')
 
       if(gio=='ok'|| 'OK')
       {
       document.getElementById("board").style.visibility='visible'
       }
-      //document.getElementById("board").style.visibility='visible'
-     // multiPl =1;
+     
       
     }
   });
@@ -670,7 +504,7 @@ logPwd: $("#pwd").val()
 
 $("#Signup").click(function()
 {
-    alert('cubi2')
+    alert('Registrazione avvenuta, procedere con il login')
 socket.emit("signup", 
 {
 
@@ -688,7 +522,7 @@ $("#idgiocopc").click(function()
   setGame() 
   document.getElementById("alex").style.visibility='visible'
   document.getElementById("idgiocopc").style.visibility='hidden'
-
+  document.getElementById("idgiocomulti").style.visibility='hidden'
 });
 
 //bottone multiplayer
@@ -696,16 +530,12 @@ $("#idgiocopc").click(function()
 $("#idgiocomulti").click(function()
 {
   
-  document.getElementById("board").style.visibility='visible'
+
   document.getElementById("idgiocomulti").style.visibility='hidden'
   document.getElementById("idgiocopc").style.visibility='hidden'
-
+  document.getElementById("buttonSearch").style.visibility='visible'
+  document.getElementById("idsearch").style.visibility='visible'
 });
-
-
-
-
-
 
 
 });
@@ -715,7 +545,7 @@ socket.on('login',function(data)
         if (data.status == true)
         {
           yourName= data.username
-           //yourName  :data.username
+           
            document.getElementById("divlogin").style.visibility='hidden'
            document.getElementById("divsignup").style.visibility='hidden'
            document.getElementById("idgiocopc").style.visibility='visible'
@@ -735,7 +565,7 @@ socket.on('signup',function(data)
            
         }
 
-        /* inserire scritta quando username già presente*/ 
+        
     });
   
 
