@@ -1,6 +1,6 @@
 src="/socket.io/socket.io.js"
-var socket=io.connect('http://localhost:3000/'); //IN LOCALE
-//var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
+//var socket=io.connect('http://localhost:3000/'); //IN LOCALE
+var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 
 //variabili per giocatori
@@ -14,6 +14,7 @@ var setField = 0;
 
 
 
+/* Creating variables for each cell in the table. */
 var cell00 = document.getElementById('0-0');
 var cell01 = document.getElementById('0-1');
 var cell02 = document.getElementById('0-2');
@@ -88,6 +89,7 @@ var posx ='';
 var posy='';
 var nossa = 21;
 
+/* The above code is creating variables that are storing the elements from the HTML file. */
 var messageContainer = document.getElementById('message-container')
 var messageForm = document.getElementById('send-container')
 var messageInput = document.getElementById('message-input')
@@ -96,6 +98,11 @@ var nickname="Avversario :)"
 appendMessage('You joined')
 socket.emit('new-user', nickname)
 
+/**
+ * The function takes a message as an argument and creates a new div element, sets the innerText of the
+ * div to the message, and appends the div to the messageContainer.
+ * @param message - The message to be sent.
+ */
 socket.on('chat-message', data => {
   appendMessage(`${data.nickname}: ${data.message}`)
 })
@@ -126,6 +133,7 @@ function appendMessage(message) {
 
 
 
+
 socket.on('connect',()=> {
 
    console.log('Benvenuti nel gioco!')
@@ -134,6 +142,9 @@ socket.on('connect',()=> {
 
 
 
+/**
+ * It creates a 2D array of empty strings and creates a div for each element in the array.
+ */
 function setGame()
 {
     board = [];
@@ -159,6 +170,11 @@ function setGame()
     }
 }
 
+/**
+ * The function setPiece() is called when a player clicks on a tile. It checks if the game is over, and
+ * if not, it updates the board array and the tile's class to reflect the player's move.
+ * @returns the value of the variable nossa.
+ */
 function setPiece()
 {
     if (gameOver)
@@ -206,11 +222,16 @@ function setPiece()
 
 }
 
+/**
+ * It checks if there are four consecutive pieces of the same color in a row, column or diagonal.
+ * @returns the winner of the game.
+ */
 function checkWinner()
 {
 
   
    //orizzontale 
+  /* Checking for a horizontal win. */
   for (let r = 0; r < rows; r++)
   {
     for (let c = 0; c < columns - 3; c++)
@@ -288,6 +309,11 @@ function checkWinner()
 
 }
 
+/**
+ * It checks if the game is over and if it is, it sets the gameOver variable to true
+ * @param r - row
+ * @param c - the column where the player clicked
+ */
 function setWinner(r,c)
 {
 
@@ -313,6 +339,7 @@ if (board[r][c]==playerRed)
 if (board[r][c]==playerYellow)
 {
   alert("VINCITORE GIALLO")
+  /* Sending a message to the server. */
   socket.emit("esitoye", 
   {
     esitoy:"vincitore ye"
@@ -324,6 +351,8 @@ if (board[r][c]==playerYellow)
   gameOver= true;
 }
 
+/* Checking if the game is over, if it is not, it is checking if it is the first turn, if it is, it is
+creating the board. */
 function pippo(pos)
 {
   if (gameOver)
@@ -407,6 +436,7 @@ function pippo(pos)
     
 
   
+/* Sending the position of the move and the color of the player to the server. */
     socket.emit("mossa", 
   {
     posiz:pos,
@@ -418,6 +448,8 @@ function pippo(pos)
 
 }
 
+/* Listening for a message from the server called "esitored2" and if the message is "vincitore rosso"
+and the current player is "Yellow" then it will alert the user that they have lost. */
 socket.on("esitored2", function(data)
 {
   if(data.es=="vincitore rosso" & currPlayer=="Yellow")
@@ -438,6 +470,7 @@ socket.on("esitoye2", function(data)
 }
 )
 
+/* Receiving the move from the other player and updating the board. */
 socket.on('mossa1',function(data)
   {  
     //
@@ -514,6 +547,8 @@ socket.on('mossa1',function(data)
 $(document).ready(function()
 {
   
+ /* Sending the username of the person who is searching for a user and the username of the person who
+ is being searched for. */
   $("#buttonSearch").click(function()
   
 {
@@ -534,6 +569,10 @@ socket.emit("searchUser",
 
 
 
+  /* Listening for a message from the server called 'searchUser'. When it receives this message, it
+  checks if the username is the same as the one you entered. If it is, it shows the board and the
+  message container. It then asks the user if they want to accept the challenge. If they do, it
+  shows the board. */
   socket.on('searchUser',function(data)
   {
    
@@ -586,6 +625,7 @@ socket.emit("signup",
 });
 
 
+/* Setting the game to single player mode. */
 $("#idgiocopc").click(function()
 {
   setGame() 
@@ -596,6 +636,7 @@ $("#idgiocopc").click(function()
 
 //bottone multiplayer
 
+/* Hiding the button and showing the search bar. */
 $("#idgiocomulti").click(function()
 {
   
@@ -609,6 +650,8 @@ $("#idgiocomulti").click(function()
 
 });
 
+/* Listening for a login event from the server. If the login is successful, it hides the login and
+signup divs and shows the game divs. */
 socket.on('login',function(data)
     {
         if (data.status == true)
@@ -621,6 +664,8 @@ socket.on('login',function(data)
            document.getElementById("idgiocomulti").style.visibility='visible'
         }
     });
+/* Listening for a 'signup' event from the server. When the server emits a 'signup' event, the client
+will execute the function that is passed as the second argument to the socket.on() method. */
 
 socket.on('signup',function(data)
     {
