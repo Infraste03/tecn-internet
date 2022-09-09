@@ -174,6 +174,7 @@ function setGame()
  * The function setPiece() is called when a player clicks on a tile. It checks if the game is over, and
  * if not, it updates the board array and the tile's class to reflect the player's move.
  * @returns the value of the variable nossa.
+ * 
  */
 function setPiece()
 {
@@ -261,7 +262,7 @@ function checkWinner()
     {
       if (board[r][c] !=' ')
       {
-        if (board[r][c]==board[r+1][c]&&board[r+1][c]==board[r+2][c]&&board[r+2][c]==board[r+3][c])
+        if (board[r][c]==board[r+1][c]&&board[r+1][c]==board[r+2][c]&&board[r+2][c]==board[r+3][c]) 
         {
             setWinner(r,c);
             
@@ -329,7 +330,7 @@ if (nossa==1)
 if (board[r][c]==playerRed)
 {
   
-  alert("VINCITORE DEL ROSSO")
+  alert("VINCITORE ROSSO")
   socket.emit("esitorosso", 
   {
     esito:"vincitore rosso"
@@ -352,8 +353,8 @@ if (board[r][c]==playerYellow)
 }
 
 /* Checking if the game is over, if it is not, it is checking if it is the first turn, if it is, it is
-creating the board. */
-function pippo(pos)
+creating the board. */ //il polpo
+function move(pos)
 {
   if (gameOver)
     {
