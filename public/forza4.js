@@ -552,8 +552,8 @@ $(document).ready(function()
   $("#buttonSearch").click(function()
   
 {
-  document.getElementById("buttonSearch").style.visibility='hidden'
-  document.getElementById("idsearch").style.visibility='hidden'
+  //document.getElementById("buttonSearch").style.visibility='hidden'
+  //document.getElementById("idsearch").style.visibility='hidden'
 
 socket.emit("searchUser", 
 {
