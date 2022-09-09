@@ -1,6 +1,6 @@
 src="/socket.io/socket.io.js"
-//var socket=io.connect('http://localhost:3000/'); //IN LOCALE
-var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
+var socket=io.connect('http://localhost:3000/'); //IN LOCALE
+//var socket = io.connect('https://forza4game.herokuapp.com'); //SU HEROKU
 
 
 //variabili per giocatori
@@ -10,6 +10,7 @@ var currPlayer= playerRed;
 var yourName;
 var multiPl = 0;
 var turno= true;
+var setField = 0;
 
 
 
@@ -329,19 +330,23 @@ function pippo(pos)
     {
         return;
     }
-  if(isF){
+  if(isF)
+  {
     actualPlayer = currPlayer;
     isF = false;
-    for(let r = 0; r< rows; r++)
-    {
-        let row= [];
-        for (let c= 0; c < columns; c++)
-        {
-          row.push(' ');
-        }
-        board.push(row);
-       
-    }
+    if(setField == 0){
+      for(let r = 0; r< rows; r++)
+      {
+          let row= [];
+          for (let c= 0; c < columns; c++)
+          {
+            row.push(' ');
+          }
+          board.push(row);
+        
+      }
+      setField = 1;
+  }
   }
 
   if (turno==true)
@@ -350,8 +355,58 @@ function pippo(pos)
     let pluto = pos.split("-") // "0-0" ==> ["0","0"]
     let r = parseInt(pluto[0]);
     let c = parseInt(pluto[1]);
-    board[r][c]=actualPlayer;
-   
+    for(let i= r; i<6; i++)
+    {
+      if (i<5)
+      {
+        //alert(i)
+        /*while(board[i+1][c]===" ")
+        {
+          
+          break;
+        }*/
+        if (board[i+1][c]!=" ")
+        {
+          //alert("speriamo been")
+          board[i][c]=actualPlayer;
+          let tile = document.getElementById(i.toString()+ "-" + c.toString());
+          if (currPlayer == playerRed)
+          {
+              tile.classList.add("red-pice");
+              pos=i+'-'+c;
+              break;
+          }
+          else
+          {
+              tile.classList.add("yellow-pice");
+              pos=i+'-'+c;
+              break;
+          }
+        }
+      
+      }
+      else{
+        
+          board[i][c]=actualPlayer;
+          let tile = document.getElementById(i.toString()+ "-" + c.toString());
+            if (currPlayer == playerRed)
+            {
+                tile.classList.add("red-pice");
+            }
+            else
+            {
+                tile.classList.add("yellow-pice");
+                
+            }
+
+            pos=i+'-'+c;
+        
+      }
+    }
+
+    
+
+  
     socket.emit("mossa", 
   {
     posiz:pos,
@@ -419,6 +474,21 @@ socket.on('mossa1',function(data)
        
         currPlayer=playerRed;
         
+      }
+
+      if(currPlayer == "Yellow" & setField == 0){
+        for(let r = 0; r< rows; r++)
+    {
+        let row= [];
+        for (let c= 0; c < columns; c++)
+        {
+          row.push(' ');
+        }
+        board.push(row);
+
+        setField = 1;
+       
+    }
       }
       board [r][c] = data.col;
     }
